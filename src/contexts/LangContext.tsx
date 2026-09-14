@@ -61,7 +61,7 @@ const UI_TRANSLATIONS: Translations = {
   visualDetails: { en: "Visual Details", ar: "حاجات عينك تحبها", it: "Dettagli Visivi" },
   previous: { en: "Previous Project", ar: "المشروع السابق", it: "Progetto Precedente" },
   upNext: { en: "Up Next", ar: "المشروع التالي", it: "Prossimo Progetto" },
-  madeBy: { en: "Hamed made this with love", ar: "حامد اللي عمل ده بكل حب", it: "Fatto con amore da Hamed" },
+  madeBy: { en: "Rakeeen made this with love", ar: "ركين عمل الصفحة دي بحب", it: "Rakeeen ha creato questo con amore" },
   client: { en: "Client", ar: "العميل", it: "Cliente" },
   role_label: { en: "Role", ar: "دوري كان إيه", it: "Ruolo" },
   duration: { en: "Duration", ar: "الوقت", it: "Durata" },

@@ -96,7 +96,7 @@ export const Home = () => {
 
   React.useEffect(() => {
     // Home keeps the full branding title
-    document.title = `Rakeeen ... Product Builder`;
+    document.title = `Rakeeen — UX Designer`;
     // Instantly mark load complete on mount to ensure navbar & standard scroll behave correctly
     if (setInitialLoadComplete) {
       setInitialLoadComplete();
