@@ -1,0 +1,77 @@
+/* About: who is behind the pixels, the road so far as a timeline, and the toolkit. The timeline's
+   current step is the one crossing the middle of the screen; its square node turns purple. */
+
+.about { padding-top: 5rem; padding-bottom: 7rem; display: flex; flex-direction: column; gap: 6rem; }
+
+.about__header { padding-bottom: 2.5rem; border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+.about__kicker { margin-bottom: 0.9rem; font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faded); }
+.about__title {
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  padding-bottom: 0.08em;
+}
+.about__heading { font-size: clamp(1.75rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.05; }
+:lang(ar) .about__title { letter-spacing: 0; line-height: 1.2; text-transform: none; }
+:lang(ar) .about__heading { letter-spacing: 0; }
+
+.about__intro { display: grid; gap: 3rem; align-items: start; }
+.about__intro--with-portrait { grid-template-columns: 1fr 17.5rem; }
+.about__bio { max-width: 42rem; font-size: clamp(1.1rem, 2vw, 1.3rem); line-height: 1.8; color: var(--ink-faded); text-wrap: pretty; }
+.about__tagline {
+  display: inline-block;
+  margin-top: 2.5rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+}
+.about__portrait { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); }
+
+.about__section { display: flex; flex-direction: column; }
+
+/* The timeline: a hairline down the start edge, a square node on it for each step. */
+.journey { position: relative; margin-top: 3.5rem; padding-inline-start: 2.5rem; list-style: none; }
+.journey::before {
+  content: '';
+  position: absolute;
+  inset-block: 0.5rem 0;
+  inset-inline-start: 0;
+  width: 1px;
+  background: color-mix(in srgb, var(--ink) 18%, transparent);
+}
+.journey__step { position: relative; margin-bottom: 4.5rem; }
+.journey__step:last-child { margin-bottom: 0; }
+.journey__node {
+  position: absolute;
+  inset-inline-start: calc(-2.5rem - 4px);
+  top: 0.45rem;
+  width: 9px;
+  height: 9px;
+  background: var(--paper);
+  border: 1px solid color-mix(in srgb, var(--ink) 40%, transparent);
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform var(--spring-duration) var(--spring);
+}
+.journey__step[data-active] .journey__node { background: var(--sepia); border-color: var(--sepia); transform: scale(1.5); }
+.journey__year { display: block; margin-bottom: 0.4rem; font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-faded); }
+.journey__role { font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+.journey__company { display: block; margin: 0.3rem 0 1rem; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faded); }
+.journey__story { max-width: 44rem; font-size: 0.98rem; line-height: 1.75; color: var(--ink-faded); transition: color 0.3s ease; }
+.journey__step[data-active] .journey__story { color: var(--ink); }
+
+.skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); gap: 1rem; margin-top: 2.5rem; list-style: none; }
+.skill { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.25rem 1.5rem; transition: border-color 0.2s ease; }
+.skill:hover { border-color: color-mix(in srgb, var(--ink) 45%, transparent); }
+.skill__title { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; }
+.skill__detail { font-size: 0.8rem; line-height: 1.4; color: var(--ink-faded); }
+
+@media (max-width: 768px) {
+  .about { gap: 4.5rem; }
+  .about__intro--with-portrait { grid-template-columns: 1fr; gap: 2.5rem; }
+  .about__portrait { max-width: 15rem; }
+}

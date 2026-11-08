@@ -185,7 +185,8 @@ textarea.input-line { resize: none; border: none; border-bottom: 1px solid var(-
 
 /* ── APP SHELL ── */
 .app-shell { display: flex; flex-direction: column; min-height: 100vh; }
-.app-shell__nav { position: relative; z-index: 100; }
+/* The bar stays at the top while the page scrolls; it sticks to this wrapper, which spans the page. */
+.app-shell__nav { position: sticky; top: 0; z-index: 100; }
 .app-shell__main { flex-grow: 1; }
 .app-shell__main--padded { padding-top: 2.5rem; }
 .app-fade-in { animation: app-fade-in 0.8s ease 0.2s backwards; }

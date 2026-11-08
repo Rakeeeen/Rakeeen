@@ -3,9 +3,7 @@
 
 .navbar {
   --nav-ink: var(--ink);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  position: relative;
   height: 4rem;
   padding-inline: var(--page-gutter);
   display: flex;
