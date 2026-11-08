@@ -1,7 +1,7 @@
 # Rakeeen — portfolio
 
-Hamed's personal portfolio: React 19, TypeScript (strict), Vite 6, Tailwind 4, GSAP for scroll
-animation, Firestore for content, three languages (English, Arabic RTL, Italian). Deployed to
+Hamed's personal portfolio: React 19, TypeScript (strict), Vite 6, plain CSS next to each component
+(Tailwind 4 supplies the reset), Firestore for content, three languages (English, Arabic RTL, Italian). Deployed to
 GitHub Pages under `/Rakeeen/`. It is being redesigned in the spirit of the Haus app (silver,
 a rare purple accent, retro-futurism, one spring motion system), on the local branch `redesign`.
 Never push that branch; never read `.env`.
@@ -27,11 +27,14 @@ touched (both themes, all three languages, a phone width).
 2. **Imports use `@/`**, never `../`.
 3. **No logic in components** that does not need state, a ref or the DOM: it is a pure function in
    `domain/` or `i18n/`, with a test.
-4. **Only `data/` talks to Firebase.** Pages read content through `useSiteContent()`.
+4. **Only `data/` talks to Firebase**, and only through `firebase/firestore/lite` (no live
+   listeners: the content is read once). Pages read it through `useSiteContent()`.
 5. **Every text is localized.** Fixed interface lines live in `i18n/translations.ts`; content that
    the Dashboard edits is a `LocalizedField` and is read with `resolveField`.
 6. **No `any`, no `@ts-ignore`, no dead code.** Delete what is unused instead of commenting it out.
-7. **Style comes from tokens** in `styles/`, not from numbers written into a component.
+7. **Style comes from tokens** in `styles/`, not from numbers written into a component, and from a
+   stylesheet next to the component (`Name.tsx` + `name.css`), not from inline `style` objects
+   (a `--step` custom property for the entrance order is the one exception).
 8. **Icons.** Plain controls come from `ui/icons.tsx` (own SVG paths, no icon library), built from
    `ICON_STROKE_WIDTH`/`LINECAP`/`LINEJOIN`; never hardcode those numbers. Characterful drawings
    (the mascot) are generated: edit `scripts/illustrations/shapes.py`, run

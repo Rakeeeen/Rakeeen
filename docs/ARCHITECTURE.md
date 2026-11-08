@@ -28,8 +28,9 @@ A feature never imports another feature; what two pages share moves to `ui/`, `d
 1. `LangProvider` picks the language (saved choice → browser → English) and sets `lang`/`dir` on
    `<html>`.
 2. `SiteContentProvider` starts with `content/siteDefaults.ts` and replaces it with the Firestore
-   document `content/main` as soon as it arrives. Saved config is merged over the defaults, so a
-   field added later never breaks an old document.
+   document `content/main` once it has been read (one request, no live listener: what the Dashboard
+   saves shows on the next visit). Saved config is merged over the defaults, so a field added later
+   never breaks an old document.
 3. `SettingsProvider` holds the visitor's theme and cursor choice: their own saved choice, then the
    defaults saved with the content, then the system's theme.
 4. `recordVisit()` (`data/analytics.ts`) counts a visit per session and a visitor per device.
@@ -39,6 +40,18 @@ A feature never imports another feature; what two pages share moves to `ui/`, `d
 `Home` loads with the site. Every other page is a lazy route, so it is fetched the first time it
 is opened. `NotFound` sits outside the layout; `Offline` replaces everything while the browser has
 no connection (`app/OnlineGuard.tsx`).
+
+## Fonts
+
+General Sans and Geist Mono are linked from `index.html`. Thmanyah Sans (Arabic) is served from
+`public/fonts/thmanyah/` (woff2, subset to Arabic, Latin and punctuation), one file per weight, fetched
+only when the weight is used.
+
+## Film screens
+
+`ui/FilmScreen` draws the two pages that say something went wrong (404 and offline) as a frame of old
+film: sprocket holes, strips of small print, the site's grain stepping about, scratches, and a split,
+flickering title while something is wrong.
 
 ## Motion
 

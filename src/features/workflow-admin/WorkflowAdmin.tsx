@@ -1,270 +1,115 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSiteContent } from '@/data/SiteContent';
+import type { WorkflowPhase } from '@/domain/content';
+import { blankPhase, movePhase } from '@/domain/workflow';
 import { Button } from '@/ui/Button';
+import { Field, TextArea } from '@/ui/Field';
 import { PixelGlyph } from '@/ui/PixelGlyph';
 import { PHASE_GLYPHS } from '@/ui/pixelGlyphs';
-import { WorkflowPhase } from '@/domain/content';
+import '@/features/workflow-admin/workflowAdmin.css';
 
-const EMPTY_PHASE: WorkflowPhase = {
-  en_title: '',
-  ar_title: '',
-  en_sub: '',
-  ar_sub: '',
-  en_desc: '',
-  ar_desc: '',
-  en_skills: '',
-  ar_skills: '',
-};
+const LANGUAGES = [
+  { code: 'en', name: 'English', rtl: false },
+  { code: 'ar', name: 'العربية', rtl: true },
+  { code: 'it', name: 'Italiano', rtl: false },
+] as const;
 
-const VectorPreview = ({ index, size = 28 }: { index: number; size?: number }) => (
-  <span style={{ display: 'inline-flex', color: 'var(--ink)' }}>
-    <PixelGlyph pixels={PHASE_GLYPHS[index % PHASE_GLYPHS.length]} size={size} />
-  </span>
-);
+type Draft = Record<string, string>;
 
+/** Edit the phases of "How I build": reorder, add, remove, and write each in the three languages. */
 export const WorkflowAdmin = () => {
   const { workflowPhases, saveWorkflowPhases } = useSiteContent();
-  const [phases, setPhases] = useState<WorkflowPhase[]>(workflowPhases || []);
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  const [editDraft, setEditDraft] = useState<WorkflowPhase>(EMPTY_PHASE);
+  const [phases, setPhases] = useState<WorkflowPhase[]>(workflowPhases);
+  const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'failed'>('idle');
+  const [editing, setEditing] = useState<number | null>(null);
+  const [draft, setDraft] = useState<Draft>({});
+  const dialog = useRef<HTMLDialogElement>(null);
 
+  useEffect(() => setPhases(workflowPhases), [workflowPhases]);
   useEffect(() => {
-    setPhases(workflowPhases || []);
-  }, [workflowPhases]);
+    if (editing === null) dialog.current?.close();
+    else if (!dialog.current?.open) dialog.current?.showModal();
+  }, [editing]);
 
-  const openEdit = (i: number) => {
-    setEditingIndex(i);
-    setEditDraft({ ...phases[i] });
+  const edit = (index: number) => {
+    setDraft({ ...phases[index] });
+    setEditing(index);
+  };
+  const applyEdit = () => {
+    setPhases((previous) => previous.map((phase, i) => (i === editing ? (draft as unknown as WorkflowPhase) : phase)));
+    setEditing(null);
   };
 
-  const closeEdit = () => {
-    setEditingIndex(null);
-    setEditDraft(EMPTY_PHASE);
-  };
-
-  const saveEdit = () => {
-    const updated = phases.map((p, i) => i === editingIndex ? editDraft : p);
-    setPhases(updated);
-    closeEdit();
-  };
-
-  const addPhase = () => {
-    const newIndex = phases.length;
-    const newPhase: WorkflowPhase = {
-      en_title: `0${newIndex + 1} · New Phase`,
-      ar_title: `0${newIndex + 1} · مرحلة جديدة`,
-      en_sub: 'Phase Subtitle',
-      ar_sub: 'عنوان فرعي',
-      en_desc: 'Describe what happens in this phase.',
-      ar_desc: 'وصف المرحلة باللغة العربية.',
-      en_skills: 'Skill A · Skill B · Skill C',
-      ar_skills: 'مهارة أ · مهارة ب · مهارة ج',
-    };
-    setPhases(prev => [...prev, newPhase]);
-  };
-
-  const deletePhase = (i: number) => {
-    setPhases(prev => prev.filter((_, idx) => idx !== i));
-  };
-
-  const movePhase = (i: number, dir: -1 | 1) => {
-    const arr = [...phases];
-    const target = i + dir;
-    if (target < 0 || target >= arr.length) return;
-    [arr[i], arr[target]] = [arr[target], arr[i]];
-    setPhases(arr);
-  };
-
-  const saveToFirestore = async () => {
-    setSaving(true);
+  const save = async () => {
+    setStatus('saving');
     try {
       await saveWorkflowPhases(phases);
-      setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
-    } catch (e) {
-      console.error('Save failed:', e);
-    } finally {
-      setSaving(false);
+      setStatus('saved');
+    } catch {
+      setStatus('failed');
     }
   };
 
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    fontFamily: 'var(--font-body)',
-    fontSize: '0.88rem',
-    padding: '0.55rem 0.8rem',
-    border: '1px solid var(--border)',
-    background: 'var(--paper)',
-    color: 'var(--ink)',
-    outline: 'none',
-    boxSizing: 'border-box',
-  };
-
-  const labelStyle: React.CSSProperties = {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '0.6rem',
-    fontWeight: 700,
-    letterSpacing: '0.1em',
-    textTransform: 'uppercase',
-    color: 'var(--ink)',
-    opacity: 0.5,
-    display: 'block',
-    marginBottom: '0.35rem',
-  };
+  const field = (key: string) => ({
+    value: draft[key] ?? '',
+    onChange: (event: { target: { value: string } }) => setDraft((previous) => ({ ...previous, [key]: event.target.value })),
+  });
 
   return (
-    <div style={{ background: 'var(--paper)', color: 'var(--ink)', minHeight: '100vh' }}>
-      <div className="page-container" style={{ paddingTop: '6rem', paddingBottom: '8rem', maxWidth: '860px', margin: '0 auto' }}>
+    <div className="admin page">
+      <header className="admin__header">
+        <p className="admin__kicker mono">Admin · Dashboard</p>
+        <h1 className="admin__title text-silver">Workflow phases</h1>
+        <p className="admin__hint">Add, edit, reorder or remove phases. Each one takes its pixel shape from its place in the list.</p>
+      </header>
 
-        {/* Header */}
-        <div style={{ borderBottom: '1px solid var(--border)', paddingBottom: '2rem', marginBottom: '3rem' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', opacity: 0.4, marginBottom: '0.8rem' }}>
-            ADMIN · DASHBOARD
-          </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.02em', lineHeight: 0.95, color: 'var(--ink)' }}>
-            Workflow Phases
-          </h1>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.9rem', opacity: 0.5, marginTop: '0.8rem' }}>
-            Add, edit, reorder, or remove phases. Each phase auto-generates a unique vector shape.
-          </p>
-        </div>
-
-        {/* Phase List */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2.5rem' }}>
-          {phases.map((phase, i) => (
-            <div key={i} style={{
-              border: '1px solid var(--border)',
-              background: 'var(--paper-dark)',
-              padding: '1.4rem 1.8rem',
-              display: 'grid',
-              gridTemplateColumns: '44px 1fr auto',
-              gap: '1.2rem',
-              alignItems: 'center',
-            }}>
-              {/* Auto-generated vector */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.85 }}>
-                <VectorPreview index={i} />
-              </div>
-
-              {/* Phase info */}
-              <div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 850, textTransform: 'uppercase', letterSpacing: '-0.01em', color: 'var(--ink)' }}>
-                  {phase.en_title}
-                </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', opacity: 0.45, marginTop: '0.2rem' }}>
-                  {phase.en_sub}
-                </div>
-              </div>
-
-              {/* Actions */}
-              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexShrink: 0 }}>
-                <button onClick={() => movePhase(i, -1)} disabled={i === 0}
-                  style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--ink)', padding: '0.3rem 0.55rem', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', opacity: i === 0 ? 0.25 : 1 }}>
-                  ↑
-                </button>
-                <button onClick={() => movePhase(i, 1)} disabled={i === phases.length - 1}
-                  style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--ink)', padding: '0.3rem 0.55rem', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', opacity: i === phases.length - 1 ? 0.25 : 1 }}>
-                  ↓
-                </button>
-                <button onClick={() => openEdit(i)}
-                  style={{ background: 'var(--ink)', color: 'var(--paper)', border: 'none', padding: '0.35rem 0.9rem', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '0.62rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-                  EDIT
-                </button>
-                <button onClick={() => deletePhase(i)}
-                  style={{ background: 'none', border: '1px solid var(--border)', color: 'var(--ink)', padding: '0.35rem 0.65rem', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', opacity: 0.5 }}>
-                  ✕
-                </button>
-              </div>
+      <ol className="admin__list">
+        {phases.map((phase, index) => (
+          <li key={index} className="admin__item card">
+            <PixelGlyph pixels={PHASE_GLYPHS[index % PHASE_GLYPHS.length]} size={28} />
+            <div className="admin__name">
+              <strong>{phase.en_title}</strong>
+              <span className="mono">{phase.en_sub}</span>
             </div>
-          ))}
-        </div>
-
-        {/* Add Phase Button */}
-        <button onClick={addPhase}
-          style={{ border: '1px dashed var(--border)', background: 'transparent', color: 'var(--ink)', padding: '1rem 2rem', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', width: '100%', opacity: 0.6, marginBottom: '3rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem' }}>
-          <span style={{ fontSize: '1.1rem' }}>+</span> ADD NEW PHASE — VECTOR AUTO-GENERATED
-        </button>
-
-        {/* Save Button */}
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <Button onClick={saveToFirestore} disabled={saving} style={{ minWidth: '200px' }}>
-            {saving ? 'SAVING...' : 'SAVE TO FIRESTORE'}
-          </Button>
-          {saved && (
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--forest)', fontWeight: 700, letterSpacing: '0.1em' }}>
-              ✓ SAVED
-            </span>
-          )}
-        </div>
-
-        {/* Edit Modal */}
-        {editingIndex !== null && (
-          <div style={{
-            position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 1000,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem',
-          }}>
-            <div style={{
-              background: 'var(--paper)', border: '1px solid var(--border)',
-              padding: '2.5rem', maxWidth: '680px', width: '100%', maxHeight: '90vh', overflowY: 'auto',
-            }}>
-              {/* Modal header */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem', borderBottom: '1px solid var(--border)', paddingBottom: '1.2rem' }}>
-                <VectorPreview index={editingIndex} size={32} />
-                <div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', opacity: 0.4, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Editing Phase {editingIndex + 1}</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 850, textTransform: 'uppercase' }}>{editDraft.en_title || 'Untitled'}</div>
-                </div>
-              </div>
-
-              {/* Form grid */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem 1.5rem' }}>
-                {([
-                  ['en_title', 'Title (EN)'], ['ar_title', 'Title (AR)'],
-                  ['en_sub',   'Sub-label (EN)'], ['ar_sub', 'Sub-label (AR)'],
-                  ['en_skills','Skills (EN)'], ['ar_skills', 'Skills (AR)'],
-                ] as [keyof WorkflowPhase, string][]).map(([field, label]) => (
-                  <div key={field}>
-                    <label style={labelStyle}>{label}</label>
-                    <input
-                      value={editDraft[field]}
-                      onChange={e => setEditDraft(prev => ({ ...prev, [field]: e.target.value }))}
-                      style={inputStyle}
-                    />
-                  </div>
-                ))}
-
-                <div style={{ gridColumn: '1 / -1' }}>
-                  <label style={labelStyle}>Description (EN)</label>
-                  <textarea
-                    value={editDraft.en_desc}
-                    onChange={e => setEditDraft(prev => ({ ...prev, en_desc: e.target.value }))}
-                    rows={3}
-                    style={{ ...inputStyle, resize: 'vertical' }}
-                  />
-                </div>
-                <div style={{ gridColumn: '1 / -1' }}>
-                  <label style={labelStyle}>Description (AR)</label>
-                  <textarea
-                    value={editDraft.ar_desc}
-                    onChange={e => setEditDraft(prev => ({ ...prev, ar_desc: e.target.value }))}
-                    rows={3}
-                    style={{ ...inputStyle, resize: 'vertical', direction: 'rtl' }}
-                  />
-                </div>
-              </div>
-
-              {/* Modal actions */}
-              <div style={{ display: 'flex', gap: '0.8rem', marginTop: '2rem', borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}>
-                <Button onClick={saveEdit}>SAVE CHANGES</Button>
-                <Button tone="outline" onClick={closeEdit}>CANCEL</Button>
-              </div>
+            <div className="admin__actions">
+              <Button tone="ghost" aria-label="Move up" disabled={index === 0} onClick={() => setPhases(movePhase(phases, index, -1))}>↑</Button>
+              <Button tone="ghost" aria-label="Move down" disabled={index === phases.length - 1} onClick={() => setPhases(movePhase(phases, index, 1))}>↓</Button>
+              <Button tone="ink" onClick={() => edit(index)}>Edit</Button>
+              <Button tone="outline" aria-label="Remove" onClick={() => setPhases(phases.filter((_, i) => i !== index))}>✕</Button>
             </div>
-          </div>
-        )}
+          </li>
+        ))}
+      </ol>
 
+      <div className="admin__footer">
+        <Button tone="outline" onClick={() => setPhases([...phases, blankPhase(phases.length)])}>+ Add a phase</Button>
+        <Button onClick={save} disabled={status === 'saving'}>{status === 'saving' ? 'Saving…' : 'Save'}</Button>
+        <p className="admin__status mono" role="status">
+          {status === 'saved' && 'Saved'}
+          {status === 'failed' && 'Could not save'}
+        </p>
       </div>
+
+      <dialog ref={dialog} className="admin__dialog card" onClose={() => setEditing(null)}>
+        {editing !== null && (
+          <form method="dialog" onSubmit={(event) => { event.preventDefault(); applyEdit(); }}>
+            <h2 className="admin__dialog-title">Phase {editing + 1}</h2>
+            {LANGUAGES.map(({ code, name, rtl }) => (
+              <fieldset key={code} className="admin__language" dir={rtl ? 'rtl' : 'ltr'}>
+                <legend className="mono">{name}</legend>
+                <Field label="Title" {...field(`${code}_title`)} />
+                <Field label="Subtitle" {...field(`${code}_sub`)} />
+                <Field label="Skills, separated by ·" {...field(`${code}_skills`)} />
+                <TextArea label="Description" rows={3} {...field(`${code}_desc`)} />
+              </fieldset>
+            ))}
+            <div className="admin__dialog-actions">
+              <Button type="submit">Apply</Button>
+              <Button tone="outline" onClick={() => setEditing(null)}>Cancel</Button>
+            </div>
+          </form>
+        )}
+      </dialog>
     </div>
   );
 };

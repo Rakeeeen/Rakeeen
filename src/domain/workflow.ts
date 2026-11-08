@@ -32,3 +32,31 @@ export function phaseContent(phase: WorkflowPhase, lang: Language): PhaseContent
     skills: splitSkills(pick('skills')),
   };
 }
+
+/** The phases with one moved a step earlier (-1) or later (1); the same list if it cannot move. */
+export function movePhase(phases: readonly WorkflowPhase[], index: number, direction: -1 | 1): WorkflowPhase[] {
+  const target = index + direction;
+  if (target < 0 || target >= phases.length) return [...phases];
+  const moved = [...phases];
+  [moved[index], moved[target]] = [moved[target], moved[index]];
+  return moved;
+}
+
+/** A starting point for a phase added at the end of a list of `count` phases. */
+export function blankPhase(count: number): WorkflowPhase {
+  const number = String(count + 1).padStart(2, '0');
+  return {
+    en_title: `${number} · New phase`,
+    ar_title: `${number} · مرحلة جديدة`,
+    it_title: `${number} · Nuova fase`,
+    en_sub: 'Subtitle',
+    ar_sub: 'عنوان فرعي',
+    it_sub: 'Sottotitolo',
+    en_desc: 'Describe what happens in this phase.',
+    ar_desc: 'وصف المرحلة.',
+    it_desc: 'Descrivi cosa succede in questa fase.',
+    en_skills: 'Skill A · Skill B',
+    ar_skills: 'مهارة أ · مهارة ب',
+    it_skills: 'Competenza A · Competenza B',
+  };
+}

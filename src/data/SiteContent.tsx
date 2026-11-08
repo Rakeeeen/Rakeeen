@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { doc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore/lite';
 import {
   COMPETENCIES,
   DEFAULT_WORKFLOW_PHASES,
@@ -45,37 +45,45 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
   const [workflowPhases, setWorkflowPhases] = useState<WorkflowPhase[]>(DEFAULT_WORKFLOW_PHASES);
   const [remoteSettings, setRemoteSettings] = useState<UISettings | null>(null);
 
+  // The content is read once when the site opens; what the Dashboard saves shows on the next visit.
   useEffect(() => {
+    let cancelled = false;
     const ref = doc(db, ...CONTENT_DOC);
-    return onSnapshot(ref, (snapshot) => {
-      if (!snapshot.exists()) {
-        void setDoc(ref, {
-          siteConfig: SITE_CONFIG,
-          projects: PROJECTS,
-          timeline: TIMELINE,
-          competencies: COMPETENCIES,
-          workflowPhases: DEFAULT_WORKFLOW_PHASES,
-          settings: { showCursor: true, theme: 'dark' },
-        });
-        return;
-      }
-      const data = snapshot.data();
-      if (data.siteConfig) {
-        // Saved config may predate newer fields, so every group is merged over the defaults.
-        setSiteConfig({
-          ...SITE_CONFIG,
-          ...data.siteConfig,
-          contactForm: { ...SITE_CONFIG.contactForm, ...data.siteConfig.contactForm },
-          socials: { ...SITE_CONFIG.socials, ...data.siteConfig.socials },
-          siteImages: { ...SITE_CONFIG.siteImages, ...data.siteConfig.siteImages },
-        });
-      }
-      if (data.projects) setProjects(data.projects);
-      if (data.timeline) setTimeline(data.timeline);
-      if (data.competencies) setCompetencies(data.competencies);
-      if (data.workflowPhases) setWorkflowPhases(data.workflowPhases);
-      if (data.settings) setRemoteSettings(data.settings);
-    });
+    getDoc(ref)
+      .then((snapshot) => {
+        if (cancelled) return;
+        if (!snapshot.exists()) {
+          void setDoc(ref, {
+            siteConfig: SITE_CONFIG,
+            projects: PROJECTS,
+            timeline: TIMELINE,
+            competencies: COMPETENCIES,
+            workflowPhases: DEFAULT_WORKFLOW_PHASES,
+            settings: { showCursor: true, theme: 'dark' },
+          });
+          return;
+        }
+        const data = snapshot.data();
+        if (data.siteConfig) {
+          // Saved config may predate newer fields, so every group is merged over the defaults.
+          setSiteConfig({
+            ...SITE_CONFIG,
+            ...data.siteConfig,
+            contactForm: { ...SITE_CONFIG.contactForm, ...data.siteConfig.contactForm },
+            socials: { ...SITE_CONFIG.socials, ...data.siteConfig.socials },
+            siteImages: { ...SITE_CONFIG.siteImages, ...data.siteConfig.siteImages },
+          });
+        }
+        if (data.projects) setProjects(data.projects);
+        if (data.timeline) setTimeline(data.timeline);
+        if (data.competencies) setCompetencies(data.competencies);
+        if (data.workflowPhases) setWorkflowPhases(data.workflowPhases);
+        if (data.settings) setRemoteSettings(data.settings);
+      })
+      .catch((error) => console.warn('Content could not be loaded; showing the defaults.', error));
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const saveWorkflowPhases = async (phases: WorkflowPhase[]) => {

@@ -4,6 +4,7 @@ import { recordVisit } from '@/data/analytics';
 import { Footer } from '@/app/layout/Footer';
 import { Navbar } from '@/app/layout/Navbar';
 import { CustomCursor } from '@/ui/CustomCursor';
+import '@/app/shell.css';
 
 /** The frame around every page: navigation, the page itself, and the footer. */
 export const MainLayout = () => {

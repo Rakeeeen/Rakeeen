@@ -1,4 +1,4 @@
-import { doc, increment, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, increment, setDoc, updateDoc } from 'firebase/firestore/lite';
 import { db } from '@/data/firebase';
 
 const SESSION_KEY = 'hamed_session_tracked';

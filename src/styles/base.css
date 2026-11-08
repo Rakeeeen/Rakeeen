@@ -31,6 +31,10 @@ body {
 
 ::selection { background: var(--sepia); color: #FFFFFF; }
 
+/* Keyboard focus is always visible, whatever the pointer is doing. */
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+.field :focus-visible { outline: none; }
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -86,7 +90,7 @@ select:-webkit-autofill {
 }
 
 /* Corner smoothing, as Figma and iOS draw it. Browsers without it keep the plain radius. */
-.card, .rounded-card, .rounded-modal, .rounded-box { corner-shape: squircle; }
+.card, .rounded-card, .rounded-box { corner-shape: squircle; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

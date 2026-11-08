@@ -1,5 +1,5 @@
 import emailjs from '@emailjs/browser';
-import { addDoc, collection, doc, getDoc, increment, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, increment, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore/lite';
 import { db } from '@/data/firebase';
 import type { InquiryDraft } from '@/domain/contact';
 
