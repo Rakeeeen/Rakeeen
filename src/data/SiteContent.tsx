@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { doc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 import {
   COMPETENCIES,
   DEFAULT_WORKFLOW_PHASES,
@@ -25,7 +25,8 @@ interface SiteContentValue {
   workflowPhases: WorkflowPhase[];
   /** The visitor-facing defaults stored with the content, applied until the visitor chooses. */
   remoteSettings: UISettings | null;
-  setWorkflowPhases: (phases: WorkflowPhase[]) => void;
+  /** Saves the phases to the content document, and shows them straight away. */
+  saveWorkflowPhases: (phases: WorkflowPhase[]) => Promise<void>;
 }
 
 const SiteContentContext = createContext<SiteContentValue | undefined>(undefined);
@@ -77,9 +78,14 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
     });
   }, []);
 
+  const saveWorkflowPhases = async (phases: WorkflowPhase[]) => {
+    await updateDoc(doc(db, ...CONTENT_DOC), { workflowPhases: phases });
+    setWorkflowPhases(phases);
+  };
+
   return (
     <SiteContentContext.Provider
-      value={{ siteConfig, projects, timeline, competencies, workflowPhases, remoteSettings, setWorkflowPhases }}
+      value={{ siteConfig, projects, timeline, competencies, workflowPhases, remoteSettings, saveWorkflowPhases }}
     >
       {children}
     </SiteContentContext.Provider>

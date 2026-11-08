@@ -4,8 +4,6 @@ import { Button } from '@/ui/Button';
 import { PixelGlyph } from '@/ui/PixelGlyph';
 import { PHASE_GLYPHS } from '@/ui/pixelGlyphs';
 import { WorkflowPhase } from '@/domain/content';
-import { db } from '@/data/firebase';
-import { doc, updateDoc } from 'firebase/firestore';
 
 const EMPTY_PHASE: WorkflowPhase = {
   en_title: '',
@@ -25,7 +23,7 @@ const VectorPreview = ({ index, size = 28 }: { index: number; size?: number }) =
 );
 
 export const WorkflowAdmin = () => {
-  const { workflowPhases, setWorkflowPhases } = useSiteContent();
+  const { workflowPhases, saveWorkflowPhases } = useSiteContent();
   const [phases, setPhases] = useState<WorkflowPhase[]>(workflowPhases || []);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -82,9 +80,7 @@ export const WorkflowAdmin = () => {
   const saveToFirestore = async () => {
     setSaving(true);
     try {
-      const docRef = doc(db, 'content', 'main');
-      await updateDoc(docRef, { workflowPhases: phases });
-      setWorkflowPhases(phases);
+      await saveWorkflowPhases(phases);
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch (e) {

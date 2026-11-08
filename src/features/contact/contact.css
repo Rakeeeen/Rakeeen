@@ -1,0 +1,31 @@
+/* Contact: a title, three fields, one purple button. After sending, one card says so. */
+
+.contact { max-width: 62rem; padding-top: 5rem; padding-bottom: 6rem; display: flex; flex-direction: column; gap: 3rem; }
+
+.contact__header { padding-bottom: 2.5rem; border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+.contact__kicker { margin-bottom: 0.9rem; font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faded); }
+.contact__title {
+  font-size: clamp(2.5rem, 7.5vw, 6rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  padding-bottom: 0.08em;
+}
+:lang(ar) .contact__title { letter-spacing: 0; line-height: 1.2; text-transform: none; }
+
+.contact__form { display: flex; flex-direction: column; gap: 1.25rem; }
+.contact__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.contact__actions { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; margin-top: 0.5rem; }
+.contact__error { min-height: 1.2em; font-size: 0.75rem; letter-spacing: 0.04em; color: var(--rust); }
+.contact__actions .btn { min-width: 11rem; }
+
+.contact__sent { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; padding: 4rem 2rem; text-align: center; }
+.contact__sent h2 { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.02em; }
+.contact__sent p { max-width: 28rem; font-size: 1rem; line-height: 1.6; color: var(--ink-faded); }
+
+@media (max-width: 640px) {
+  .contact__pair { grid-template-columns: 1fr; }
+  .contact__actions { flex-direction: column-reverse; align-items: stretch; }
+}
