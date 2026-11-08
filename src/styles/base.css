@@ -9,9 +9,11 @@ html {
 body {
   background-color: var(--paper);
   background-image: var(--grain-page), var(--cloud-page);
-  /* A 512px tile at 256 CSS px: one grain per device pixel on a Retina screen. */
-  background-size: 256px 256px, 100% 100%;
-  background-attachment: scroll, fixed;
+  /* Layers: the grain, then the two soft patches of --cloud-page. The grain is a 512px tile drawn at
+     256 CSS px (one grain per device pixel on a Retina screen); the patches fill the screen. Every
+     layer needs its own size and attachment: a short list repeats, and a patch gets tiled like grain. */
+  background-size: 256px 256px, 100% 100%, 100% 100%;
+  background-attachment: scroll, fixed, fixed;
   color: var(--ink);
   font-family: var(--font-sans);
   min-height: 100vh;
@@ -55,8 +57,11 @@ select:-webkit-autofill {
 
 /* Big titles: the page's aluminum, clipped to the letters. */
 .text-silver {
+  width: fit-content;
+  max-width: 100%;
+  /* The grain, then the three layers of --cloud-title; one size each (see body). */
   background-image: var(--grain-title), var(--cloud-title);
-  background-size: 256px 256px, 100% 100%;
+  background-size: 256px 256px, 100% 100%, 100% 100%, 100% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
