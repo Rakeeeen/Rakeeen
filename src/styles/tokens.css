@@ -13,6 +13,12 @@
 
   /* The side margin that every page, the bar and the foot share, so their edges line up. */
   --page-gutter: clamp(1.25rem, 4vw, 3rem);
+  /* One vertical rhythm for every page: room above the first thing, room below the last, and the
+     distance between a page's sections. */
+  --page-top: clamp(2rem, 6vh, 3.5rem);
+  --page-bottom: clamp(3rem, 8vh, 5rem);
+  --section-gap: clamp(3rem, 8vh, 4.5rem);
+  --header-gap: 2.25rem;
 
   --bg: #D6D6D6;
   --paper: #D6D6D6;

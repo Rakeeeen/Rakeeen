@@ -6,18 +6,18 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 4rem;
-  padding-bottom: 2.5rem;
+  gap: 2rem;
+  padding-bottom: 1rem;
 }
 
 .home__hero {
   width: 100%;
   max-width: 88rem;
   margin-inline: auto;
-  padding: clamp(3rem, 9vh, 7rem) var(--page-gutter) 0;
+  padding: var(--page-top) var(--page-gutter) 0;
   display: flex;
   flex-direction: column;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
+  gap: clamp(1rem, 2.4vh, 1.75rem);
 }
 
 .home__kicker {
@@ -28,7 +28,8 @@
 }
 
 .home__title {
-  font-size: clamp(3rem, 10.5vw, 9.5rem);
+  /* Limited by the screen's height too, so the ticker below stays in the first screen. */
+  font-size: clamp(2.5rem, min(8.4vw, 13.5vh), 7.5rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.04em;
@@ -77,13 +78,13 @@
   width: 100vw;
   left: 50%;
   transform: translateX(-50%);
-  height: 7.5rem;
+  height: clamp(7rem, 20vh, 11rem);
   overflow: hidden;
   display: flex;
   align-items: center;
   direction: ltr;
 }
-.ticker__strip { position: relative; width: 100%; height: 3.75rem; will-change: transform; }
+.ticker__strip { position: relative; width: 100%; height: 100%; will-change: transform; }
 .ticker__item {
   position: absolute;
   top: 50%;

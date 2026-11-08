@@ -1,9 +1,9 @@
 /* How I build: six phases, one card each. Each has its pixel shape; the one crossing the middle of the
    screen lights its shape purple and its edge. Purple appears nowhere else on the page. */
 
-.workflow { max-width: 62rem; padding-top: 4rem; padding-bottom: 5rem; display: flex; flex-direction: column; gap: 3.5rem; }
+.workflow { max-width: 62rem; display: flex; flex-direction: column; gap: var(--section-gap); }
 
-.workflow__header { padding-bottom: 2.5rem; border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+.workflow__header { padding-bottom: var(--header-gap); border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
 .workflow__kicker { margin-bottom: 0.9rem; font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faded); }
 .workflow__title {
   font-size: clamp(2.5rem, 6vw, 4.75rem);
@@ -18,7 +18,7 @@
 .phases { display: flex; flex-direction: column; gap: 1.25rem; list-style: none; }
 .phase { display: flex; gap: 1.75rem; padding: 2rem 2.25rem; transition: border-color 0.3s ease; }
 .phase[data-active] { border-color: color-mix(in srgb, var(--ink) 45%, transparent); }
-.phase__glyph { flex-shrink: 0; color: color-mix(in srgb, var(--ink) 30%, transparent); transition: color 0.3s ease; }
+.phase__glyph { flex-shrink: 0; color: color-mix(in srgb, var(--ink) 40%, transparent); transition: color 0.3s ease; }
 .phase[data-active] .phase__glyph { color: var(--sepia); }
 body.dark .phase[data-active] .phase__glyph { color: #9461F0; }
 

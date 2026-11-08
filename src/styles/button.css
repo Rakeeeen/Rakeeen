@@ -6,7 +6,10 @@
   justify-content: center;
   gap: 0.5rem;
   min-height: 2.75rem;
-  padding: 0.6rem 1.6rem;
+  --pad: 1.6rem;
+  padding-block: 0.6rem;
+  /* The padding moves a little when a neighbour is pressed (motion.css, .spring-group). */
+  padding-inline: calc(var(--pad) + var(--reach-prev, 0px)) calc(var(--pad) + var(--reach-next, 0px));
   border: 1px solid transparent;
   border-radius: 9999px;
   font-family: var(--font-mono), monospace;
@@ -15,7 +18,7 @@
   text-transform: uppercase;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, translate 0.15s ease;
 }
 .btn:disabled {
   background-color: color-mix(in srgb, var(--ink) 8%, transparent);

@@ -4,6 +4,7 @@ import { filterByCategory, projectCategories } from '@/domain/projects';
 import { useLang } from '@/i18n/LangContext';
 import { FilterTabs } from '@/ui/FilterTabs';
 import { IconArrowUpRight } from '@/ui/icons';
+import { usePushNeighbours } from '@/ui/usePushNeighbours';
 import '@/features/projects/projects.css';
 
 const ALL = 'all';
@@ -12,6 +13,7 @@ export const Projects = () => {
   const { projects } = useSiteContent();
   const { t, resolveField } = useLang();
   const [category, setCategory] = useState(ALL);
+  const grid = usePushNeighbours<HTMLUListElement>();
 
   useEffect(() => {
     document.title = `${t('projects')} | Rakeeen`;
@@ -45,7 +47,7 @@ export const Projects = () => {
         </div>
       )}
 
-      <ul className="projects__grid">
+      <ul className="projects__grid push-group" ref={grid}>
         {visible.map((project, index) => {
           const title = resolveField(project.title);
           const summary = resolveField(project.summary);

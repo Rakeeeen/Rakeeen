@@ -18,14 +18,28 @@
 .spring-group > * {
   --reach-next: 0px;
   --reach-prev: 0px;
-  transition-property: padding-inline-start, padding-inline-end, background-color, border-color, color;
-  transition-duration: var(--spring-duration), var(--spring-duration), 0.2s, 0.2s, 0.2s;
-  transition-timing-function: var(--spring), var(--spring), ease, ease, ease;
+  transition-property: padding-inline-start, padding-inline-end, background-color, border-color, color, translate;
+  transition-duration: var(--spring-duration), var(--spring-duration), 0.2s, 0.2s, 0.2s, 0.15s;
+  transition-timing-function: var(--spring), var(--spring), ease, ease, ease, ease;
 }
+/* The pressed one drops a hair, like a key. */
+.btn[data-pressed],
+.spring-group > [data-pressed] { translate: 0 1px; }
 .spring-group > [data-pressed]:has(+ *) { --reach-next: 8px; }
 .spring-group > * + [data-pressed] { --reach-prev: 8px; }
 .spring-group > [data-pressed] + * { --reach-prev: -8px; }
 .spring-group > :has(+ [data-pressed]) { --reach-next: -8px; }
+
+/* Cards in a grid: the pressed one grows a little into the gaps around it and the cards beside it
+   (marked by ui/usePushNeighbours) give way. Layout never moves; only margins and offsets do. */
+.push-group > * {
+  transition: margin var(--spring-duration) var(--spring), translate var(--spring-duration) var(--spring);
+}
+.push-group > [data-pressed] { margin: -6px; }
+.push-group > [data-push='left'] { translate: -5px 0; }
+.push-group > [data-push='right'] { translate: 5px 0; }
+.push-group > [data-push='up'] { translate: 0 -5px; }
+.push-group > [data-push='down'] { translate: 0 5px; }
 
 /* The custom pointer's arrow: over something clickable it tilts, as a hand turns a pen towards a
    button; pressed, it squeezes towards its tip. The origin is the tip, so the point it clicks at never
@@ -53,6 +67,7 @@
 @media (prefers-reduced-motion: reduce) {
   .rise { animation: none; }
   .spring-group > * { --reach-next: 0px !important; --reach-prev: 0px !important; }
+  .push-group > * { transition: none; }
   .custom-cursor-svg { transition: none; }
 }
 

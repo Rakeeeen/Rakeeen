@@ -68,7 +68,7 @@ export const Navbar = () => {
           ))}
         </div>
 
-        <div className="navbar__controls">
+        <div className="navbar__controls spring-group">
           <LanguageMenu />
           <ThemeToggle theme={theme} onToggle={() => updateSettings({ theme: theme === 'dark' ? 'light' : 'dark' })} />
         </div>

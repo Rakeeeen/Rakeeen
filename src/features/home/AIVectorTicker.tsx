@@ -14,7 +14,7 @@ interface ActiveShape extends Glyph { id: number; x: number }
 
 const SPACING = 185;
 const SPEED = 0.9;
-const WAVE_AMPLITUDE = 22; // px of the travelling wave
+const WAVE_AMPLITUDE = 30; // px of the travelling wave
 const WAVE_SPEED = 0.022; // phase added per frame
 const PIXELS_PER_SKETCH = 10;
 

@@ -42,6 +42,12 @@ is opened. `/admin/workflow` (the editor of the workflow's phases) is registered
 `npm run dev`: the public build has no editor, and no code for one. `NotFound` sits outside the layout; `Offline` replaces everything while the browser has
 no connection (`app/OnlineGuard.tsx`).
 
+## Spacing
+
+One rhythm for every page (`styles/tokens.css`): `--page-gutter` for the sides, `--page-top` and
+`--page-bottom` around the content, `--header-gap` under a page's title and `--section-gap` between its
+sections. A page takes them from the shared `.page` class; it does not set its own.
+
 ## Fonts
 
 General Sans and Geist Mono are linked from `index.html`. Thmanyah Sans (Arabic) is served from
@@ -57,7 +63,8 @@ flickering title while something is wrong.
 ## Motion
 
 One spring for everything (`--spring` in `styles/tokens.css`, the same physics as Haus). CSS runs it:
-`.rise` for entrances (one `--step` apart), `.spring-group` for neighbours that push each other,
+`.rise` for entrances (one `--step` apart), `.spring-group` for things in a row that push each other (nav items, tags, buttons), `.push-group` for
+cards in a grid (`ui/usePushNeighbours` marks the pressed card and the ones beside it),
 `data-pressed` (held at least 140 ms by `ui/usePressHold`) for presses, and the arrow of the custom
 cursor. There is no JavaScript animation library; colour and opacity use plain easing.
 

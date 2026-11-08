@@ -1,6 +1,5 @@
 /* The foot of every page: where to find me, and who made this. */
 .footer {
-  margin-top: 5rem;
   padding: 2.5rem var(--page-gutter) 3rem;
   display: flex;
   flex-direction: column;

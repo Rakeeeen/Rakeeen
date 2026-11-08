@@ -57,6 +57,66 @@ def sun_icon(seed):
         p.line([(500 + 330 * math.cos(a), 500 + 330 * math.sin(a)), (500 + 440 * math.cos(a), 500 + 440 * math.sin(a))])
     return p
 
+# ── One icon per phase of "How I build" ────────────────────────────────────────────────
+
+def magnifier_icon(seed):
+    p = Pen(seed, w=ICON_W, wob=1.6)
+    p.blob(disc((470, 450), 290, 12), rough=12, corner=.32)
+    p.circle((430, 420), 290, 290)
+    p.line([(645, 640), (860, 860)])
+    return p
+
+def flow_icon(seed):
+    p = Pen(seed, w=ICON_W, wob=1.6)
+    p.blob([(180, 640), (440, 640), (440, 860), (180, 860)], rough=8, corner=.15)
+    p.blob([(560, 640), (840, 640), (840, 860), (560, 860)], rough=8, corner=.15)
+    p.circle((500, 230), 130, 130)
+    p.line([(180, 640), (420, 640), (420, 840), (180, 840)], closed=True)
+    p.line([(580, 640), (820, 640), (820, 840), (580, 840)], closed=True)
+    p.line([(500, 360), (500, 480), (300, 480), (300, 640)])
+    p.line([(500, 480), (700, 480), (700, 640)])
+    return p
+
+def layout_icon(seed):
+    p = Pen(seed, w=ICON_W, wob=1.6)
+    p.blob([(160, 200), (880, 200), (880, 840), (160, 840)], rough=9, corner=.1)
+    p.line([(130, 170), (850, 170), (850, 810), (130, 810)], closed=True)
+    p.line([(130, 360), (850, 360)])
+    p.line([(390, 360), (390, 810)])
+    return p
+
+def code_icon(seed):
+    p = Pen(seed, w=ICON_W, wob=1.6)
+    p.blob(disc((520, 520), 330, 10), rough=12, corner=.32)
+    p.line([(380, 280), (150, 500), (380, 720)])
+    p.line([(620, 280), (850, 500), (620, 720)])
+    p.line([(570, 190), (430, 810)])
+    return p
+
+def check_icon(seed):
+    p = Pen(seed, w=ICON_W, wob=1.6)
+    p.blob(disc((530, 530), 370, 12), rough=12, corner=.32)
+    p.circle((500, 500), 380, 380)
+    p.line([(300, 520), (450, 670), (720, 340)])
+    return p
+
+def rocket_icon(seed):
+    p = Pen(seed, w=ICON_W, wob=1.6)
+    p.blob([(500, 130), (680, 330), (680, 650), (320, 650), (320, 330)], rough=9, corner=.2)
+    p.line([(500, 90), (650, 280), (650, 620), (350, 620), (350, 280)], closed=True)
+    p.circle((500, 380), 70, 70)
+    p.line([(350, 500), (210, 700), (350, 680)])
+    p.line([(650, 500), (790, 700), (650, 680)])
+    p.line([(440, 730), (500, 900), (560, 730)])
+    return p
+
+def compass_icon(seed):
+    p = Pen(seed, w=ICON_W, wob=1.6)
+    p.blob(disc((530, 530), 370, 12), rough=12, corner=.32)
+    p.circle((500, 500), 380, 380)
+    p.line([(640, 360), (560, 560), (360, 640), (440, 440)], closed=True)
+    return p
+
 ICONS = {
     'mascot': {'still': mascot_icon, 'parts': {}},
     'heart': {'still': heart_icon, 'parts': {}},
@@ -64,6 +124,20 @@ ICONS = {
     'bulb': {'still': bulb_icon, 'parts': {}},
     'pencil': {'still': pencil_icon, 'parts': {}},
     'sun': {'still': sun_icon, 'parts': {}},
+    'magnifier': {'still': magnifier_icon, 'parts': {}},
+    'flow': {'still': flow_icon, 'parts': {}},
+    'layout': {'still': layout_icon, 'parts': {}},
+    'code': {'still': code_icon, 'parts': {}},
+    'check': {'still': check_icon, 'parts': {}},
+    'rocket': {'still': rocket_icon, 'parts': {}},
+    'compass': {'still': compass_icon, 'parts': {}},
+}
+
+# Which generated file each icon lands in. Phase icons are used by one page only, so they sit in their
+# own file and load with that page; the rest are used by the bar and the home page.
+FILES = {
+    'sketchIcons.data.ts': ['mascot', 'heart', 'sparkle', 'bulb', 'pencil', 'sun'],
+    'phaseIcons.data.ts': ['magnifier', 'flow', 'layout', 'code', 'check', 'rocket', 'compass'],
 }
 
 # Three redraws per icon, flicked through four times a second: the "line boil" of a hand-drawn film.

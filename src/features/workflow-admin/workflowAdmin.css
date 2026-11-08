@@ -1,8 +1,8 @@
 /* The editor for the workflow's phases. Plain and quick: a list, and a dialog per phase. */
 
-.admin { max-width: 54rem; padding-top: 5rem; padding-bottom: 6rem; display: flex; flex-direction: column; gap: 2.5rem; }
+.admin { max-width: 54rem; display: flex; flex-direction: column; gap: 2rem; }
 
-.admin__header { padding-bottom: 2rem; border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+.admin__header { padding-bottom: var(--header-gap); border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
 .admin__kicker { margin-bottom: 0.8rem; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faded); }
 .admin__title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; text-transform: uppercase; padding-bottom: 0.08em; }
 .admin__hint { margin-top: 0.8rem; font-size: 0.9rem; color: var(--ink-faded); }

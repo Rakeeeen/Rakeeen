@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { MIN_PRESS_MS } from '@/ui/motion';
 
-const PRESSABLE = '.btn:not(:disabled), .spring-group > a, .spring-group > button:not(:disabled)';
+const PRESSABLE = '.btn:not(:disabled), .spring-group > a, .spring-group > button:not(:disabled), .spring-group > .language-menu';
 
 /**
  * Marks the pressed button with `data-pressed` for at least MIN_PRESS_MS. A click is over in far

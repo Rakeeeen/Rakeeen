@@ -1,9 +1,9 @@
 /* About: who is behind the pixels, the road so far as a timeline, and the toolkit. The timeline's
    current step is the one crossing the middle of the screen; its square node turns purple. */
 
-.about { padding-top: 5rem; padding-bottom: 7rem; display: flex; flex-direction: column; gap: 6rem; }
+.about { display: flex; flex-direction: column; gap: var(--section-gap); }
 
-.about__header { padding-bottom: 2.5rem; border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+.about__header { padding-bottom: var(--header-gap); border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
 .about__kicker { margin-bottom: 0.9rem; font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faded); }
 .about__title {
   font-size: clamp(2.5rem, 7vw, 5.5rem);
@@ -64,14 +64,23 @@
 .journey__story { max-width: 44rem; font-size: 0.98rem; line-height: 1.75; color: var(--ink-faded); transition: color 0.3s ease; }
 .journey__step[data-active] .journey__story { color: var(--ink); }
 
-.skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); gap: 1rem; margin-top: 2.5rem; list-style: none; }
-.skill { display: flex; flex-direction: column; gap: 0.35rem; padding: 1.25rem 1.5rem; transition: border-color 0.2s ease; }
-.skill:hover { border-color: color-mix(in srgb, var(--ink) 45%, transparent); }
-.skill__title { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; }
-.skill__detail { font-size: 0.8rem; line-height: 1.4; color: var(--ink-faded); }
+/* The toolkit as a cloud of round tags, not a wall of boxes: it reads as a list of things I do, and
+   takes the room it needs. */
+.skills { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 2rem; list-style: none; }
+.skill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--ink) 24%, transparent);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.skill:hover { border-color: color-mix(in srgb, var(--ink) 55%, transparent); background-color: color-mix(in srgb, var(--ink) 5%, transparent); }
+.skill__title { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; }
+.skill__detail { font-size: 0.8rem; color: var(--ink-faded); }
 
 @media (max-width: 768px) {
-  .about { gap: 4.5rem; }
   .about__intro--with-portrait { grid-template-columns: 1fr; gap: 2.5rem; }
   .about__portrait { max-width: 15rem; }
 }

@@ -4,8 +4,8 @@ import { useSiteContent } from '@/data/SiteContent';
 import { phaseContent } from '@/domain/workflow';
 import { useLang } from '@/i18n/LangContext';
 import { Button } from '@/ui/Button';
-import { PixelGlyph } from '@/ui/PixelGlyph';
-import { PHASE_GLYPHS } from '@/ui/pixelGlyphs';
+import { PHASE_ICONS } from '@/ui/phaseIcons';
+import { SketchIconView } from '@/ui/Sketch';
 import { useActiveStep } from '@/ui/useActiveStep';
 import '@/features/workflow/workflow.css';
 
@@ -34,7 +34,7 @@ export const Workflow = () => {
           return (
             <li key={index} className="rise phase card" style={step(2 + index * 0.3)} data-active={active === index || undefined}>
               <span className="phase__glyph">
-                <PixelGlyph pixels={PHASE_GLYPHS[index % PHASE_GLYPHS.length]} size={40} />
+                <SketchIconView frames={PHASE_ICONS[index % PHASE_ICONS.length].frames} size={48} />
               </span>
               <div className="phase__body">
                 <div className="phase__head">
@@ -57,10 +57,11 @@ export const Workflow = () => {
 
       <footer className="rise workflow__next" style={step(2)}>
         <p className="workflow__kicker mono">{t('continueJourney')}</p>
-        <div className="workflow__buttons">
+        {/* Three equal choices, none before the others: all purple, and they share their space. */}
+        <div className="workflow__buttons spring-group">
           <Button onClick={() => navigate('/projects')}>{t('projects')}</Button>
-          <Button tone="outline" onClick={() => navigate('/about')}>{t('about')}</Button>
-          <Button tone="ghost" onClick={() => navigate('/contact')}>{t('sayHeyyy')}</Button>
+          <Button onClick={() => navigate('/about')}>{t('about')}</Button>
+          <Button onClick={() => navigate('/contact')}>{t('sayHeyyy')}</Button>
         </div>
       </footer>
     </div>

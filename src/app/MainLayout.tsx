@@ -1,5 +1,5 @@
 import { Suspense, useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { recordVisit } from '@/data/analytics';
 import { useSiteContent } from '@/data/SiteContent';
 import { Footer } from '@/app/layout/Footer';
@@ -10,8 +10,6 @@ import '@/app/shell.css';
 /** The frame around every page: navigation, the page itself, and the footer. */
 export const MainLayout = () => {
   const { isReady } = useSiteContent();
-  const { pathname } = useLocation();
-  const isHome = pathname === '/';
 
   useEffect(() => {
     void recordVisit();
@@ -23,7 +21,7 @@ export const MainLayout = () => {
       <div className="app-shell__nav app-fade-in">
         <Navbar />
       </div>
-      <main className={`app-shell__main ${isHome ? '' : 'app-shell__main--padded'}`}>
+      <main className="app-shell__main">
         {isReady && (
           <Suspense fallback={null}>
             <Outlet />

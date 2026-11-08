@@ -4,8 +4,8 @@ import type { WorkflowPhase } from '@/domain/content';
 import { blankPhase, movePhase } from '@/domain/workflow';
 import { Button } from '@/ui/Button';
 import { Field, TextArea } from '@/ui/Field';
-import { PixelGlyph } from '@/ui/PixelGlyph';
-import { PHASE_GLYPHS } from '@/ui/pixelGlyphs';
+import { PHASE_ICONS } from '@/ui/phaseIcons';
+import { SketchIconView } from '@/ui/Sketch';
 import '@/features/workflow-admin/workflowAdmin.css';
 
 const LANGUAGES = [
@@ -66,7 +66,7 @@ export const WorkflowAdmin = () => {
       <ol className="admin__list">
         {phases.map((phase, index) => (
           <li key={index} className="admin__item card">
-            <PixelGlyph pixels={PHASE_GLYPHS[index % PHASE_GLYPHS.length]} size={28} />
+            <SketchIconView frames={PHASE_ICONS[index % PHASE_ICONS.length].frames} size={36} />
             <div className="admin__name">
               <strong>{phase.en_title}</strong>
               <span className="mono">{phase.en_sub}</span>

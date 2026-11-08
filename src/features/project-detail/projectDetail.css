@@ -1,6 +1,6 @@
 /* One project: its title, four facts, the pictures, the process, and the neighbours. */
 
-.detail { padding-top: 3rem; padding-bottom: 5rem; display: flex; flex-direction: column; gap: 3.5rem; }
+.detail { display: flex; flex-direction: column; gap: var(--section-gap); }
 
 .detail__back {
   display: inline-flex;
@@ -19,7 +19,7 @@
 .icon-backwards { transform: scaleX(-1); }
 [dir='rtl'] .icon-backwards { transform: none; }
 
-.detail__header { display: flex; flex-direction: column; gap: 1.25rem; padding-bottom: 2.5rem; border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+.detail__header { display: flex; flex-direction: column; gap: 1.25rem; padding-bottom: var(--header-gap); border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
 .detail__meta { display: flex; gap: 1.5rem; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faded); }
 .detail__title {
   font-size: clamp(2.25rem, 7vw, 5.5rem);

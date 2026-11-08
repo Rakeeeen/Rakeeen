@@ -6,13 +6,13 @@ interface SkillTagProps {
   description?: LocalizedField;
 }
 
-/** One skill: its name, and a line under it if there is one. */
+/** One skill, as a round tag: its name, and a few words after it if there are any. */
 export const SkillTag = ({ title, description }: SkillTagProps) => {
   const { resolveField } = useLang();
   const detail = resolveField(description);
 
   return (
-    <li className="skill card">
+    <li className="skill">
       <span className="skill__title">{resolveField(title)}</span>
       {detail && <span className="skill__detail">{detail}</span>}
     </li>
