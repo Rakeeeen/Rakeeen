@@ -61,7 +61,7 @@
   border: 1px solid color-mix(in srgb, var(--nav-ink) 22%, transparent);
   border-radius: 9999px;
   color: color-mix(in srgb, var(--nav-ink) 60%, transparent);
-  transition-property: padding-inline-start, padding-inline-end, background-color, border-color, color, translate;
+  transition-property: padding-inline-start, padding-inline-end, background-color, border-color, color;
 }
 .navbar__link:hover,
 .theme-toggle:hover,

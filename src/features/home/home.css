@@ -5,16 +5,18 @@
   min-height: calc(100vh - 4rem);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 2rem;
   padding-bottom: 1rem;
 }
 
+/* The hero takes the room above the ticker and sits in the middle of it, so the space is shared above and
+   below instead of left as one empty band. */
 .home__hero {
+  flex: 1;
+  justify-content: center;
   width: 100%;
   max-width: 88rem;
   margin-inline: auto;
-  padding: var(--page-top) var(--page-gutter) 0;
+  padding: clamp(0.75rem, 3vh, 3.5rem) var(--page-gutter);
   display: flex;
   flex-direction: column;
   gap: clamp(1rem, 2.4vh, 1.75rem);
@@ -29,7 +31,7 @@
 
 .home__title {
   /* Limited by the screen's height too, so the ticker below stays in the first screen. */
-  font-size: clamp(2.5rem, min(8.4vw, 13.5vh), 7.5rem);
+  font-size: clamp(2.5rem, min(9.4vw, 14.2vh), 8.75rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.04em;

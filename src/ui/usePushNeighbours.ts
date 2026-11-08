@@ -28,11 +28,15 @@ function neighboursOf(from: Box, others: readonly Box[]): Map<number, Direction>
   return new Map(Object.entries(nearest).map(([direction, found]) => [(found as { index: number }).index, direction as Direction]));
 }
 
+/** The edge of a neighbour that faces the pressed card: a card to its left meets it with its right edge. */
+const FACING: Record<Direction, Direction> = { left: 'right', right: 'left', up: 'down', down: 'up' };
+
 /**
- * For a grid of cards: pressing one marks it `data-pressed` (it grows into the gaps) and marks the
- * cards next to it, to its left, right, above and below, with `data-push` so they give way
- * (motion.css, .push-group). A press is held at least MIN_PRESS_MS so a quick click still shows.
- * Put the returned ref on the grid, whose children are the cards.
+ * For a grid of cards: pressing one marks it `data-pressed` and `data-reach` (the sides on which it has
+ * a neighbour, the only sides it stretches towards), and marks each neighbour, to its left, right,
+ * above and below, with `data-yield` (its facing edge, which gives way) (motion.css, .push-group). A
+ * press is held at least MIN_PRESS_MS so a quick click still shows. Put the returned ref on the grid,
+ * whose children are the cards.
  */
 export function usePushNeighbours<T extends HTMLElement>() {
   const grid = useRef<T>(null);
@@ -46,7 +50,8 @@ export function usePushNeighbours<T extends HTMLElement>() {
     const clear = () => {
       for (const child of element.children) {
         child.removeAttribute('data-pressed');
-        child.removeAttribute('data-push');
+        child.removeAttribute('data-reach');
+        child.removeAttribute('data-yield');
       }
     };
     const down = (event: PointerEvent) => {
@@ -58,7 +63,8 @@ export function usePushNeighbours<T extends HTMLElement>() {
       const others = cards.filter((child) => child !== card);
       const found = neighboursOf(card.getBoundingClientRect(), others.map((child) => child.getBoundingClientRect()));
       card.setAttribute('data-pressed', '');
-      found.forEach((direction, index) => others[index].setAttribute('data-push', direction));
+      card.setAttribute('data-reach', [...found.values()].join(' '));
+      found.forEach((direction, index) => others[index].setAttribute('data-yield', FACING[direction]));
     };
     const up = () => {
       if (!pressed) return;
