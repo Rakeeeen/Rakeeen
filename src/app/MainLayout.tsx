@@ -18,7 +18,7 @@ export const MainLayout = () => {
   }, []);
 
   return (
-    <div className="paper-texture app-shell">
+    <div className="app-shell">
       {showCursor && <CustomCursor />}
       <div className="app-shell__nav app-fade-in">
         <Navbar isOverlay={isProjectDetail} />

@@ -1,0 +1,84 @@
+/* Home. One big statement, one line of explanation, one action. Everything enters in order, on the
+   spring, and nothing moves after that. */
+
+.home {
+  min-height: calc(100vh - 4rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 4rem;
+  padding-bottom: 2.5rem;
+}
+
+.home__hero {
+  width: 100%;
+  max-width: 88rem;
+  margin-inline: auto;
+  padding: clamp(3rem, 9vh, 7rem) clamp(1.25rem, 5vw, 4rem) 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.home__kicker {
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+}
+
+.home__title {
+  font-size: clamp(3rem, 10.5vw, 9.5rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  /* The clipped silver needs room below the baseline, or the descenders are cut off. */
+  padding-bottom: 0.08em;
+}
+:lang(ar) .home__title { letter-spacing: 0; line-height: 1.15; text-transform: none; }
+
+.home__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem 2rem;
+  max-width: 62rem;
+}
+
+.home__portrait {
+  width: 5.5rem;
+  height: 5.5rem;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.home__lede {
+  flex: 1 1 18rem;
+  max-width: 34rem;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  line-height: 1.6;
+  color: var(--ink-faded);
+  text-wrap: pretty;
+}
+
+.home__cta { min-height: 3.25rem; padding-inline: 2rem; }
+[dir='rtl'] .home__arrow { display: inline-block; transform: scaleX(-1); }
+
+/* Entrance: each piece rises into place a beat after the one before it. */
+.home__kicker, .home__title, .home__row {
+  animation: home-rise 0.9s var(--spring) backwards;
+  animation-delay: calc(var(--step, 0) * 120ms + 60ms);
+}
+.home__kicker { --step: 0; }
+.home__title { --step: 1; }
+.home__row { --step: 3; }
+
+@keyframes home-rise {
+  from { opacity: 0; transform: translateY(1.5rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__kicker, .home__title, .home__row { animation: none; }
+}

@@ -16,7 +16,7 @@ src/
   domain/             types of the content, and pure logic (with tests)
   content/            the default content shown until Firestore answers
   ui/                 pieces shared by several pages (custom cursor, mascot)
-  styles/             global CSS: tokens, base, shared components
+  styles/             tokens.css (palette, fonts, spring), base.css, button.css, textures/; global.css pulls them in
 ```
 
 Dependencies point downwards only: `app → features → data/i18n/domain/content → ui/styles`.

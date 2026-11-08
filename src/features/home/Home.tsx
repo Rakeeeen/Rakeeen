@@ -1,203 +1,42 @@
-import React from 'react';
-import { useSiteContent } from '@/data/SiteContent';
-import { useLang } from '@/i18n/LangContext';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { DotMatrixText } from '@/features/home/DotMatrixText';
+import { useSiteContent } from '@/data/SiteContent';
 import { AIVectorTicker } from '@/features/home/AIVectorTicker';
+import { useLang } from '@/i18n/LangContext';
+import { Button } from '@/ui/Button';
+import '@/features/home/home.css';
 
-/* ──────────────────────────────────────────────────────────────
-   HeadlineFormatted
-   • Splits headline before "with / and / ..." → 2 lines
-   • Replaces the word "human" with a 5×7 dot-matrix SVG
-   ────────────────────────────────────────────────────────────── */
-const HeadlineFormatted: React.FC<{ text: string }> = ({ text }) => {
-
-  const renderChunk = (chunk: string, key: string): React.ReactNode => {
-    // We split by "human" or "ai" case-insensitively using regex
-    const regex = /(human|ai)/gi;
-    const parts = chunk.split(regex);
-    
-    return (
-      <React.Fragment key={key}>
-        {parts.map((part, i) => {
-          const lower = part.toLowerCase();
-          if (lower === 'human') {
-            return (
-              <span 
-                key={i} 
-                style={{
-                  textTransform: 'uppercase',
-                  fontWeight: 900,
-                  fontSize: '1em',
-                  color: 'var(--ink)',
-                }}
-              >
-                {part}
-              </span>
-            );
-          }
-          if (lower === 'ai') {
-            return (
-              <React.Fragment key={i}>
-                A
-                <DotMatrixText
-                  text="I"
-                  style={{
-                    height: '0.74em',          // Matches General Sans capital letters height perfectly
-                    width: 'auto',
-                    verticalAlign: 'baseline',  // Flow seamlessly along the text baseline
-                    position: 'relative',
-                    top: '-0.02em',             // Micro-adjust alignment to look completely integrated
-                    margin: '0 0.05em',
-                  }}
-                />
-              </React.Fragment>
-            );
-          }
-          return <React.Fragment key={i}>{part}</React.Fragment>;
-        })}
-      </React.Fragment>
-    );
-  };
-
-  const isAr = /[\u0600-\u06FF]/.test(text);
-  if (isAr) {
-    return <>{text}</>;
-  }
-
-  /* Split at natural break before "with / and / ..." */
-  const breakIdx = text.search(/\s+(with|and|\.\.\.)\s/i);
-
-  if (breakIdx === -1) {
-    return <>{renderChunk(text, 'full')}</>;
-  }
-
-  const line1 = text.slice(0, breakIdx).trim();
-  const line2 = text.slice(breakIdx).trim();
-
-  return (
-    <>
-      <span style={{ display: 'block' }}>{renderChunk(line1, 'l1')}</span>
-      <span style={{ display: 'block' }}>{renderChunk(line2, 'l2')}</span>
-    </>
-  );
-};
-
-/* ──────────────────────────────────────────────────────────────
-   Home
-   ────────────────────────────────────────────────────────────── */
 export const Home = () => {
   const { siteConfig } = useSiteContent();
-  const { t, resolveField, lang } = useLang();
+  const { t, resolveField } = useLang();
   const navigate = useNavigate();
 
-  const isArabic = lang === 'ar';
-
-  React.useEffect(() => {
+  useEffect(() => {
     document.title = 'Rakeeen — UX Designer';
   }, []);
 
-  /* staggered physical spring entrance (instant load with critically damped spring physics animation) */
-  const anim = (delay: number, y = 20): React.CSSProperties => ({
-    opacity: 0,
-    transform: `translateY(${y}px) scale(0.98)`,
-    animation: `physics-entrance 0.95s cubic-bezier(0.19, 1, 0.22, 1) ${delay}s forwards`,
-    willChange: 'opacity, transform',
-  });
-
-  /* content */
   const headline = resolveField(siteConfig.heroHeadline) || t('hero_headline');
   const subtitle = resolveField(siteConfig.heroSubtitle) || t('hero_subtitle');
+  const portrait = siteConfig.siteImages.aboutPortrait;
 
   return (
-    <div className="home-hero fade-in">
-      {/* Self-contained highly responsive spring physics animation keyframes */}
-      <style>{`
-        @keyframes physics-entrance {
-          0% {
-            opacity: 0;
-            transform: translateY(24px) scale(0.98);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-      `}</style>
+    <div className="home">
+      <section className="home__hero">
+        <p className="home__kicker mono">{t('productBuilder')}</p>
 
-      <section className="home-hero-inner">
+        <h1 className="home__title text-silver">{headline}</h1>
 
-        {/* ── Portrait with Premium Bracket Vectors Frame ── */}
-        <div 
-          style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            gap: '1.5rem',
-            marginBottom: '2.5rem', 
-            width: '100%',
-            direction: 'ltr',
-            ...anim(0.02, 16) 
-          }}
-        >
-          <div style={{
-            width: '120px',
-            height: '120px',
-            overflow: 'hidden',
-            background: 'transparent',
-            borderRadius: '50%'
-          }}>
-            {siteConfig.siteImages?.aboutPortrait ? (
-              <img 
-                src={siteConfig.siteImages.aboutPortrait} 
-                alt="Hamed" 
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-              />
-            ) : null}
-          </div>
-        </div>
-
-        {/* ── Headline (Elegant size & font weight precisely matching UX Pilot, rendered instantly!) ── */}
-        <h1
-          className={`home-headline ${isArabic ? 'home-headline--ar' : ''}`}
-          style={anim(0.18, 44)}
-        >
-          <HeadlineFormatted text={headline} />
-        </h1>
-
-        {/* ── Subtitle (Description) ── */}
-        <p
-          className={`home-subtitle ${isArabic ? 'home-subtitle--ar' : ''}`}
-          style={{
-            ...anim(0.32, 16),
-            marginTop: '1.2rem',
-            marginBottom: '3rem',
-          }}
-        >
-          {subtitle}
-        </p>
-
-        {/* ── Workflow Entrance CTA Button ── */}
-        <div className="home-cta-group" style={anim(0.44, 12)}>
-          <button
-            id="home-cta-workflow"
-            className="btn-brutalist"
-            onClick={() => navigate('/workflow')}
-            style={{ padding: '1.2rem 2.5rem', minWidth: '0', maxWidth: '100%', width: 'fit-content', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '0.8rem' }}
-          >
+        <div className="home__row">
+          {portrait && <img className="home__portrait rounded-card" src={portrait} alt="" />}
+          <p className="home__lede">{subtitle}</p>
+          <Button className="home__cta" onClick={() => navigate('/workflow')}>
             {t('howWeBuild')}
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: isArabic ? 'rotate(180deg)' : 'none' }}>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </button>
+            <span aria-hidden className="home__arrow">→</span>
+          </Button>
         </div>
       </section>
 
-      {/* ── AI Vector DNA Animation Ticker (Exactly positioned at bottom) ── */}
-      <div style={{ width: '100vw', marginTop: '4.5rem' }}>
-        <AIVectorTicker />
-      </div>
+      <AIVectorTicker />
     </div>
   );
 };

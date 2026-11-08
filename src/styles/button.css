@@ -1,0 +1,41 @@
+/* The button: fully round, one line, and hover changes colour only (no lift, no shadow).
+   `primary` is the single purple action on a screen. See ui/Button.tsx. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.6rem 1.6rem;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.btn:disabled {
+  background-color: color-mix(in srgb, var(--ink) 8%, transparent);
+  color: color-mix(in srgb, var(--ink) 35%, transparent);
+}
+
+.btn-primary { background-color: var(--sepia); color: #FFFFFF; }
+.btn-primary:hover:not(:disabled) { background-color: color-mix(in srgb, var(--sepia) 84%, #FFFFFF); }
+
+.btn-ink { background-color: var(--ink); color: var(--paper); }
+.btn-ink:hover:not(:disabled) { background-color: color-mix(in srgb, var(--ink) 80%, var(--paper)); }
+
+.btn-outline { color: var(--ink); border-color: color-mix(in srgb, var(--ink) 28%, transparent); }
+.btn-outline:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--ink) 7%, transparent);
+  border-color: color-mix(in srgb, var(--ink) 55%, transparent);
+}
+
+.btn-ghost { color: color-mix(in srgb, var(--ink) 55%, transparent); }
+.btn-ghost:hover:not(:disabled) {
+  color: var(--ink);
+  background-color: color-mix(in srgb, var(--ink) 7%, transparent);
+}

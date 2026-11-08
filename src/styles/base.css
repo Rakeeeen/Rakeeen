@@ -1,0 +1,79 @@
+/* Base: the page, selection, scrollbar, cursor rules, and the few utilities every page shares. */
+
+html {
+  scroll-behavior: smooth;
+  /* Keep the scrollbar track so the page never shifts sideways when it appears. */
+  scrollbar-gutter: stable;
+}
+
+body {
+  background-color: var(--paper);
+  background-image: var(--grain-page), var(--cloud-page);
+  /* A 512px tile at 256 CSS px: one grain per device pixel on a Retina screen. */
+  background-size: 256px 256px, 100% 100%;
+  background-attachment: scroll, fixed;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Arabic text takes Thmanyah; numbers and labels in Latin type keep Geist Mono. */
+:lang(ar), [dir='rtl'] {
+  font-family: var(--font-arabic), sans-serif;
+}
+[dir='rtl'] .mono, [dir='rtl'] .mono * {
+  font-family: var(--font-mono), monospace;
+}
+
+::selection { background: var(--sepia); color: #FFFFFF; }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--paper) inset !important;
+  -webkit-text-fill-color: var(--ink) !important;
+  caret-color: var(--ink) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--ink) 28%, transparent); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink); }
+
+/* The custom cursor draws the pointer on desktop; touch and small screens keep the system's. */
+@media (min-width: 769px) and (hover: hover) {
+  *, *::before, *::after { cursor: none !important; }
+}
+@media (max-width: 768px), (hover: none) {
+  .custom-cursor-wrapper { display: none !important; }
+}
+
+/* Big titles: the page's aluminum, clipped to the letters. */
+.text-silver {
+  background-image: var(--grain-title), var(--cloud-title);
+  background-size: 256px 256px, 100% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* The one card: flat and still. No shadow, no lift, no light inside. */
+.card {
+  background: var(--paper-dark);
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  border-radius: var(--radius-card);
+  padding: 2rem;
+  position: relative;
+}
+
+/* Corner smoothing, as Figma and iOS draw it. Browsers without it keep the plain radius. */
+.card, .rounded-card, .rounded-modal, .rounded-box { corner-shape: squircle; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

@@ -1,0 +1,107 @@
+/* Design tokens. The palette comes from the Haus app: neutral silver (R = G = B, no tint), ink,
+   and one purple that stays rare. Dark is plain black: the same grain as light, no light behind it. */
+
+@theme {
+  --font-sans: "General Sans", "Inter", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  --font-arabic: "Thmanyah", sans-serif;
+
+  /* Cards and the modal; small boxes (inputs, menus); every button is fully round instead. */
+  --radius-card: 16px;
+  --radius-modal: 18px;
+  --radius-box: 10px;
+}
+
+/* The runtime palette below, exposed to Tailwind (`text-ink/40`, `bg-paper-dark`, …) as live var()
+   references so it follows the theme. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-paper: var(--paper);
+  --color-paper-dark: var(--paper-dark);
+  --color-ink: var(--ink);
+  --color-ink-faded: var(--ink-faded);
+  --color-sepia: var(--sepia);
+  --color-rust: var(--rust);
+  --color-forest: var(--forest);
+}
+
+:root {
+  --bg: #D6D6D6;
+  --paper: #D6D6D6;
+  --paper-dark: #F2F2F2;
+  --ink: #141413;
+  --ink-faded: #666666;
+  --sepia: #4D14A2;
+  --rust: #B7410E;
+  --forest: #0F7A36;
+
+  /* Motion: the Haus spring, sampled so CSS runs the same physics as the app's SPRING. */
+  --spring: linear(0, 0.079, 0.252, 0.45, 0.633, 0.782, 0.892, 0.966, 1.009, 1.031, 1.038, 1.037, 1.03, 1.023, 1.016, 1.01, 1.005, 1.002, 1, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 1, 1, 1, 1);
+  --spring-duration: 0.8s;
+
+  /* Bead-blasted aluminum: per-pixel grain with no direction. Each tile is built for the tone it sits on. */
+  --grain-page: url('./textures/grain-page-light.png');
+  --grain-title: url('./textures/grain-title-on-light.png');
+  --silver-flat: #8A8A8A;
+  --cloud-page:
+    radial-gradient(70% 60% at 15% 10%, #E4E4E4 0%, transparent 70%),
+    radial-gradient(60% 70% at 90% 85%, #C6C6C6 0%, transparent 70%);
+  --cloud-title:
+    radial-gradient(55% 120% at 20% 15%, #7C7C7C 0%, transparent 75%),
+    radial-gradient(50% 120% at 85% 90%, #8E8E8E 0%, transparent 75%),
+    linear-gradient(#3C3C3C, #3C3C3C);
+}
+
+body.dark {
+  --bg: #0A0A0A;
+  --paper: #0A0A0A;
+  --paper-dark: #000000;
+  --ink: #EDEDED;
+  --ink-faded: #9A9A9A;
+  --rust: #E2583A;
+  --forest: #3AE272;
+
+  --grain-page: url('./textures/grain-page-dark.png');
+  --grain-title: url('./textures/grain-title-on-dark.png');
+  --silver-flat: #B8B8B8;
+  /* Plain black: nothing lit at the top or the bottom. */
+  --cloud-page: linear-gradient(transparent, transparent);
+  --cloud-title:
+    radial-gradient(55% 120% at 20% 15%, #F6F6F6 0%, transparent 75%),
+    radial-gradient(50% 120% at 85% 90%, #E2E2E2 0%, transparent 75%),
+    linear-gradient(#8E8E8E, #8E8E8E);
+}
+
+/* LEGACY — names the old brutalist styles still use, mapped onto the new palette. Each page that is
+   redone stops using them; delete a line when nothing refers to it any more. */
+:root {
+  --ink-light: color-mix(in srgb, var(--ink) 45%, transparent);
+  --border: color-mix(in srgb, var(--ink) 14%, transparent);
+  --cream: var(--paper-dark);
+  --charcoal: var(--ink);
+  --primary-lime: var(--sepia);
+  --tape: color-mix(in srgb, var(--sepia) 14%, transparent);
+  --dot-color: color-mix(in srgb, var(--ink) 8%, transparent);
+  --font-display: var(--font-sans);
+  --font-body: var(--font-sans);
+  --font-sketch: var(--font-sans);
+  --font-ar-display: var(--font-arabic);
+  --radius-organic: var(--radius-card);
+  --radius-btn: 9999px;
+  --radius-tag: 9999px;
+  --space-xs: 0.3rem; --space-sm: 0.6rem; --space-md: 1rem;
+  --space-lg: 1.5rem; --space-xl: 2rem;
+  --space-2xl: 3rem;  --space-3xl: 4rem;
+  --card-bg-1: var(--paper-dark); --card-bg-2: var(--paper-dark);
+  --card-bg-3: var(--paper-dark); --card-bg-4: var(--paper-dark);
+  --tag-bg-1: color-mix(in srgb, var(--ink) 8%, transparent); --tag-txt-1: var(--ink);
+  --tag-bg-2: color-mix(in srgb, var(--ink) 8%, transparent); --tag-txt-2: var(--ink);
+  --tag-bg-3: color-mix(in srgb, var(--ink) 14%, transparent); --tag-txt-3: var(--ink);
+  --tag-bg-4: color-mix(in srgb, var(--ink) 5%, transparent); --tag-txt-4: var(--ink);
+  --tag-bg-5: color-mix(in srgb, var(--ink) 11%, transparent); --tag-txt-5: var(--ink);
+  --tag-bg-6: var(--sepia); --tag-txt-6: #FFFFFF;
+  --col-0: var(--bg); --col-1: var(--paper-dark); --col-2: var(--paper-dark);
+  --col-3: color-mix(in srgb, var(--ink) 8%, var(--bg)); --col-4: color-mix(in srgb, var(--ink) 14%, var(--bg));
+  --col-5: var(--sepia); --col-6: var(--sepia); --col-7: var(--ink-faded);
+  --col-8: var(--ink-faded); --col-9: var(--ink); --col-10: var(--ink); --col-11: var(--ink);
+}
