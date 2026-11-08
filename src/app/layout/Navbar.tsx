@@ -19,8 +19,8 @@ const LINKS = [
 const isActive = (path: string, pathname: string) =>
   path === '/' ? pathname === '/' : pathname.startsWith(path);
 
-/** The bar at the top of every page. On a project's page it floats over the cover image. */
-export const Navbar = ({ isOverlay = false }: { isOverlay?: boolean }) => {
+/** The bar at the top of every page. */
+export const Navbar = () => {
   const { siteConfig } = useSiteContent();
   const { theme, updateSettings } = useSettings();
   const { t } = useLang();
@@ -32,7 +32,7 @@ export const Navbar = ({ isOverlay = false }: { isOverlay?: boolean }) => {
   const close = () => setIsMenuOpen(false);
 
   return (
-    <nav className={`navbar ${isOverlay ? 'navbar--overlay' : ''} ${isMenuOpen ? 'navbar--open' : ''}`}>
+    <nav className={`navbar ${isMenuOpen ? 'navbar--open' : ''}`}>
       <Link to="/" className="navbar__brand" onClick={close}>
         <span className="navbar__logo rounded-box">
           <MascotFace size={28} color="currentColor" style={{ opacity: logoLoaded ? 0 : 1 }} />

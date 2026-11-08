@@ -1,5 +1,5 @@
 /* The top bar. Transparent over the page, with one hairline under it. Links are small mono
-   labels; the current page sits in a quiet round pill. Over a project's cover it turns light. */
+   labels; the current page sits in a quiet round pill. */
 
 .navbar {
   --nav-ink: var(--ink);
@@ -25,12 +25,6 @@
   backdrop-filter: blur(14px);
   border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
 }
-.navbar--overlay {
-  --nav-ink: #FAF6EE;
-  position: absolute;
-  inset-inline: 0;
-}
-.navbar--overlay::before { background-color: transparent; backdrop-filter: none; border-bottom-color: transparent; }
 
 .navbar__brand {
   display: flex;

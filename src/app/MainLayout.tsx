@@ -8,7 +8,6 @@ import { CustomCursor } from '@/ui/CustomCursor';
 /** The frame around every page: navigation, the page itself, and the footer. */
 export const MainLayout = () => {
   const { pathname } = useLocation();
-  const isProjectDetail = pathname.startsWith('/project/');
   const isHome = pathname === '/';
 
   useEffect(() => {
@@ -19,9 +18,9 @@ export const MainLayout = () => {
     <div className="app-shell">
       <CustomCursor />
       <div className="app-shell__nav app-fade-in">
-        <Navbar isOverlay={isProjectDetail} />
+        <Navbar />
       </div>
-      <main className={`app-shell__main ${isProjectDetail || isHome ? '' : 'app-shell__main--padded'}`}>
+      <main className={`app-shell__main ${isHome ? '' : 'app-shell__main--padded'}`}>
         <Suspense fallback={null}>
           <Outlet />
         </Suspense>

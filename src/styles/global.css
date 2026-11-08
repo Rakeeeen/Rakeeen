@@ -183,19 +183,6 @@ textarea.input-line { resize: none; border: none; border-bottom: 1px solid var(-
   background: var(--paper);
 }
 
-/* =================================================================
-   PROJECT DETAIL — ALTERNATING GALLERY MOBILE FIX
-   ================================================================= */
-@media (max-width: 768px) {
-  .pd-alt-row {
-    grid-template-columns: 1fr !important;
-  }
-  .pd-alt-row > div:first-child {
-    border-inline-end: none !important;
-    border-bottom: 1px solid var(--border);
-  }
-}
-
 /* ── APP SHELL ── */
 .app-shell { display: flex; flex-direction: column; min-height: 100vh; }
 .app-shell__nav { position: relative; z-index: 100; }
