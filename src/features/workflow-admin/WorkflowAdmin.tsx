@@ -1,21 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSiteContent } from '@/data/SiteContent';
 import { Button } from '@/ui/Button';
+import { PixelGlyph } from '@/ui/PixelGlyph';
+import { PHASE_GLYPHS } from '@/ui/pixelGlyphs';
 import { WorkflowPhase } from '@/domain/content';
 import { db } from '@/data/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
-
-// Auto-generate a vector shape seed from the phase index
-const VECTOR_POOL = [
-  [[3,0],[4,0],[3,1],[4,1],[0,3],[1,3],[2,3],[3,3],[4,3],[5,3],[6,3],[7,3],[0,4],[1,4],[2,4],[3,4],[4,4],[5,4],[6,4],[7,4],[3,6],[4,6],[3,7],[4,7]],
-  [[3,0],[4,0],[2,1],[5,1],[1,2],[6,2],[0,3],[7,3],[1,4],[6,4],[2,5],[5,5],[3,6],[4,6]],
-  [[3,0],[4,0],[2,1],[3,1],[4,1],[5,1],[1,2],[2,2],[5,2],[6,2],[0,3],[1,3],[6,3],[7,3],[0,4],[1,4],[6,4],[7,4],[1,5],[2,5],[5,5],[6,5],[2,6],[3,6],[4,6],[5,6],[3,7],[4,7]],
-  [[1,0],[6,0],[2,1],[5,1],[3,2],[4,2],[3,3],[4,3],[2,4],[5,4],[1,5],[6,5],[2,6],[5,6],[3,7],[4,7]],
-  [[1,2],[2,1],[3,2],[3,3],[2,4],[1,3],[4,2],[5,1],[6,2],[6,3],[5,4],[4,3]],
-  [[0,0],[1,0],[6,0],[7,0],[0,1],[7,1],[0,6],[7,6],[0,7],[1,7],[6,7],[7,7],[3,3],[4,3],[3,4],[4,4]],
-  [[4,0],[3,1],[4,1],[5,1],[2,2],[3,2],[5,2],[6,2],[1,3],[7,3],[1,4],[7,4],[2,5],[3,5],[5,5],[6,5],[3,6],[4,6],[5,6],[4,7]],
-  [[0,2],[1,1],[2,0],[5,0],[6,1],[7,2],[7,5],[6,6],[5,7],[2,7],[1,6],[0,5],[3,3],[4,3],[3,4],[4,4]],
-];
 
 const PHASE_COLORS = [
   'var(--sepia)','#3B82F6','#A855F7','#F97316','#22C55E','#EC4899','#14B8A6','#F59E0B',
@@ -32,17 +22,11 @@ const EMPTY_PHASE: WorkflowPhase = {
   ar_skills: '',
 };
 
-const VectorPreview = ({ index, size = 28 }: { index: number; size?: number }) => {
-  const dots = VECTOR_POOL[index % VECTOR_POOL.length];
-  return (
-    <svg width={size} height={size} viewBox="-0.5 -0.5 9 9"
-      style={{ shapeRendering: 'crispEdges', overflow: 'visible', display: 'block', color: PHASE_COLORS[index % PHASE_COLORS.length] }}>
-      {dots.map(([cx, cy]: number[], di: number) => (
-        <circle key={di} cx={cx + 0.5} cy={cy + 0.5} r="0.45" fill="currentColor" />
-      ))}
-    </svg>
-  );
-};
+const VectorPreview = ({ index, size = 28 }: { index: number; size?: number }) => (
+  <span style={{ display: 'inline-flex', color: PHASE_COLORS[index % PHASE_COLORS.length] }}>
+    <PixelGlyph pixels={PHASE_GLYPHS[index % PHASE_GLYPHS.length]} size={size} />
+  </span>
+);
 
 export const WorkflowAdmin = () => {
   const { workflowPhases, setWorkflowPhases } = useSiteContent();

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
 import { useSettings } from '@/data/Settings';
 import { useSiteContent } from '@/data/SiteContent';
 import { LanguageMenu } from '@/app/layout/LanguageMenu';
 import { ThemeToggle } from '@/app/layout/ThemeToggle';
 import { useLang } from '@/i18n/LangContext';
+import { IconClose, IconMenu } from '@/ui/icons';
 import { MascotFace } from '@/ui/MascotFace';
 import '@/app/layout/navbar.css';
 
@@ -50,7 +50,7 @@ export const Navbar = ({ isOverlay = false }: { isOverlay?: boolean }) => {
         aria-expanded={isMenuOpen}
         onClick={() => setIsMenuOpen((open) => !open)}
       >
-        {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+        {isMenuOpen ? <IconClose /> : <IconMenu />}
       </button>
 
       <div className={`navbar__panel ${isMenuOpen ? 'navbar__panel--open' : ''}`}>

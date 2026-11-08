@@ -4,6 +4,7 @@ import { useSiteContent } from '@/data/SiteContent';
 import { AIVectorTicker } from '@/features/home/AIVectorTicker';
 import { useLang } from '@/i18n/LangContext';
 import { Button } from '@/ui/Button';
+import { IconArrow } from '@/ui/icons';
 import '@/features/home/home.css';
 
 export const Home = () => {
@@ -31,7 +32,7 @@ export const Home = () => {
           <p className="home__lede">{subtitle}</p>
           <Button className="home__cta" onClick={() => navigate('/workflow')}>
             {t('howWeBuild')}
-            <span aria-hidden className="home__arrow">→</span>
+            <IconArrow className="icon-directional" size={18} />
           </Button>
         </div>
       </section>

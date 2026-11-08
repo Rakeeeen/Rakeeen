@@ -43,6 +43,8 @@
   --grain-page: url('./textures/grain-page-light.png');
   --grain-title: url('./textures/grain-title-on-light.png');
   --silver-flat: #8A8A8A;
+  /* The hand-drawn icons' paper: the page's silver, set on a card. */
+  --icon-paper: #D6D6D6;
   --cloud-page:
     radial-gradient(70% 60% at 15% 10%, #E4E4E4 0%, transparent 70%),
     radial-gradient(60% 70% at 90% 85%, #C6C6C6 0%, transparent 70%);
@@ -64,6 +66,7 @@ body.dark {
   --grain-page: url('./textures/grain-page-dark.png');
   --grain-title: url('./textures/grain-title-on-dark.png');
   --silver-flat: #B8B8B8;
+  --icon-paper: #2C2C2C;
   /* Plain black: nothing lit at the top or the bottom. */
   --cloud-page: linear-gradient(transparent, transparent);
   --cloud-title:

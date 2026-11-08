@@ -1,19 +1,16 @@
-import React from 'react';
+import type { CSSProperties } from 'react';
+import { SketchIconView } from '@/ui/Sketch';
+import { MASCOT_ICON } from '@/ui/sketchIcons.data';
 
 interface MascotFaceProps {
   size?: number;
   color?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }
 
+/** The face: hand-drawn, with a line that boils. It takes its colour from the surrounding text. */
 export const MascotFace = ({ size = 48, color = 'var(--ink)', style }: MascotFaceProps) => (
-  <svg width={size} height={size} viewBox="0 0 48 48" fill="none" style={{ color, ...style }}>
-    <circle cx="24" cy="24" r="22" stroke="currentColor" strokeWidth="2.5" fill="none" />
-    {/* Left Eye - Stroke only */}
-    <circle cx="16" cy="20" r="3.5" stroke="currentColor" strokeWidth="2" fill="none" />
-    {/* Right Eye - Winking stroke */}
-    <path d="M28 20 Q32 16 36 20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-    {/* Mouth - Stroke only */}
-    <path d="M14 32 Q24 38 34 32" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-  </svg>
+  <span style={{ display: 'inline-flex', color, ...style }}>
+    <SketchIconView frames={MASCOT_ICON.frames} size={size} />
+  </span>
 );

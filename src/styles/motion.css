@@ -55,3 +55,12 @@
   .spring-group > * { --reach-next: 0px !important; --reach-prev: 0px !important; }
   .custom-cursor-svg { transition: none; }
 }
+
+/* Hand-drawn icons: three redraws of each, one showing at a time at four a second, the "line boil"
+   of a hand-drawn film, slow enough to read as alive, not as flicker. */
+.sketch-boil { opacity: 0; animation: sketch-boil 0.75s steps(1, end) infinite; }
+@keyframes sketch-boil { 0% { opacity: 1; } 33.333% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .sketch-boil { animation: none; }
+  .sketch-boil-set > .sketch-boil:first-child { opacity: 1; }
+}

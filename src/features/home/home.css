@@ -64,7 +64,6 @@
 }
 
 .home__cta { min-height: 3.25rem; padding-inline: 2rem; }
-[dir='rtl'] .home__arrow { display: inline-block; transform: scaleX(-1); }
 
 /* The entrance is the shared .rise (motion.css), one --step apart. */
 .home__kicker { --step: 0; }

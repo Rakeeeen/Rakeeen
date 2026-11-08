@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSiteContent } from '@/data/SiteContent';
+import { IconArrowUpRight } from '@/ui/icons';
 import { useLang } from '@/i18n/LangContext';
 
 const anim = (delay: number): React.CSSProperties => ({
@@ -246,9 +247,7 @@ export const Projects = () => {
                     opacity: hasLink ? 1 : 0.25,
                     transition: 'all 0.12s'
                   }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <path d="M7 17L17 7M17 7H7M17 7V17" />
-                    </svg>
+                    <IconArrowUpRight size={14} />
                   </div>
                 </div>
               </div>

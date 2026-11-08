@@ -53,6 +53,9 @@ select:-webkit-autofill {
   *, *::before, *::after { cursor: none !important; }
 }
 
+/* Icons that point along the reading direction turn round in right-to-left languages. */
+[dir='rtl'] .icon-directional { transform: scaleX(-1); }
+
 /* Big titles: the page's aluminum, clipped to the letters. */
 .text-silver {
   width: fit-content;

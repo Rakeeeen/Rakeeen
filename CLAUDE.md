@@ -32,5 +32,10 @@ touched (both themes, all three languages, a phone width).
    the Dashboard edits is a `LocalizedField` and is read with `resolveField`.
 6. **No `any`, no `@ts-ignore`, no dead code.** Delete what is unused instead of commenting it out.
 7. **Style comes from tokens** in `styles/`, not from numbers written into a component.
-8. **Arabic is right-to-left.** Use logical properties (`padding-inline-start`, `margin-inline-end`)
+8. **Icons.** Plain controls come from `ui/icons.tsx` (own SVG paths, no icon library), built from
+   `ICON_STROKE_WIDTH`/`LINECAP`/`LINEJOIN`; never hardcode those numbers. Characterful drawings
+   (the mascot) are generated: edit `scripts/illustrations/shapes.py`, run
+   `python3 scripts/illustrations/build.py`, and render with `ui/Sketch.tsx`. Pixel art is square
+   pixels (`ui/PixelGlyph`), never dots.
+9. **Arabic is right-to-left.** Use logical properties (`padding-inline-start`, `margin-inline-end`)
    instead of `left`/`right`.
