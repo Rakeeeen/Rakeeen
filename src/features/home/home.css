@@ -14,7 +14,7 @@
   width: 100%;
   max-width: 88rem;
   margin-inline: auto;
-  padding: clamp(3rem, 9vh, 7rem) clamp(1.25rem, 5vw, 4rem) 0;
+  padding: clamp(3rem, 9vh, 7rem) var(--page-gutter) 0;
   display: flex;
   flex-direction: column;
   gap: clamp(1.5rem, 3vw, 2.5rem);

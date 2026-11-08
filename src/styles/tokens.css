@@ -26,6 +26,9 @@
 }
 
 :root {
+  /* The side margin that every page, the bar and the foot share, so their edges line up. */
+  --page-gutter: clamp(1.25rem, 4vw, 3rem);
+
   --bg: #D6D6D6;
   --paper: #D6D6D6;
   --paper-dark: #F2F2F2;

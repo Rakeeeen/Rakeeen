@@ -1,0 +1,17 @@
+.filter-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.filter-tabs__tab {
+  --pad: 1.1rem;
+  min-height: 2.25rem;
+  padding-block: 0.4rem;
+  padding-inline: calc(var(--pad) + var(--reach-prev, 0px)) calc(var(--pad) + var(--reach-next, 0px));
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--ink) 24%, transparent);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 65%, transparent);
+}
+.filter-tabs__tab:hover { color: var(--ink); border-color: color-mix(in srgb, var(--ink) 50%, transparent); }
+.filter-tabs__tab[aria-pressed='true'] { background-color: var(--ink); border-color: var(--ink); color: var(--paper); }

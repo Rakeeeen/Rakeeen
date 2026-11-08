@@ -1,0 +1,93 @@
+/* The projects page: a big silver title, round filters, and a grid of flat cards. A card with a
+   link is a real link; one without says it is coming. Hover changes edges and colour only. */
+
+.projects { padding-top: 5rem; padding-bottom: 6rem; }
+
+.projects__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.projects__kicker {
+  margin-bottom: 0.9rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+}
+.projects__title {
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  padding-bottom: 0.08em;
+}
+:lang(ar) .projects__title { letter-spacing: 0; line-height: 1.2; text-transform: none; }
+.projects__count { font-size: 1.5rem; color: var(--ink-faded); }
+.projects__filters { margin-bottom: 2.5rem; }
+
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: 1.25rem;
+  list-style: none;
+}
+.projects__grid > li { display: flex; }
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+  min-height: 15rem;
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+a.project-card:hover { border-color: color-mix(in srgb, var(--ink) 45%, transparent); }
+.project-card--idle { color: color-mix(in srgb, var(--ink) 60%, transparent); }
+
+.project-card__top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.project-card__number { font-size: 0.75rem; color: var(--ink-faded); }
+.project-card__category {
+  padding: 0.2rem 0.7rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--ink) 24%, transparent);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.project-card__title { font-size: 1.6rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; text-wrap: balance; }
+.project-card__summary { margin-top: 0.75rem; font-size: 0.9rem; line-height: 1.6; color: var(--ink-faded); }
+
+.project-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+}
+.project-card__go {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--ink) 24%, transparent);
+  color: var(--ink);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+a.project-card:hover .project-card__go { background-color: var(--sepia); border-color: var(--sepia); color: #FFFFFF; }
+.project-card--idle .project-card__go { opacity: 0.35; }

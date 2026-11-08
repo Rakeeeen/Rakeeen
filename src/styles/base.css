@@ -47,6 +47,14 @@ select:-webkit-autofill {
 ::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--ink) 28%, transparent); }
 ::-webkit-scrollbar-thumb:hover { background: var(--ink); }
 
+/* A page's column: as wide as the bar above it, with the shared side margin. */
+.page {
+  width: 100%;
+  max-width: 88rem;
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
 /* The custom cursor (ui/CustomCursor, styled in motion.css) draws the pointer on desktop; touch and
    small screens keep the system's. */
 @media (min-width: 769px) and (hover: hover) {
