@@ -1,7 +1,8 @@
 /* Design tokens. The palette comes from the Haus app: neutral silver (R = G = B, no tint), ink,
    and one purple that stays rare. Dark is plain black: the same grain as light, no light behind it. */
 
-@theme {
+/* Plain custom properties, set on :root like everything else here. */
+:root {
   --font-sans: "General Sans", "Inter", sans-serif;
   --font-mono: "Geist Mono", monospace;
   --font-arabic: "Thmanyah", sans-serif;
@@ -9,9 +10,7 @@
   /* Cards; small boxes (inputs, menus); every button is fully round instead. */
   --radius-card: 16px;
   --radius-box: 10px;
-}
 
-:root {
   /* The side margin that every page, the bar and the foot share, so their edges line up. */
   --page-gutter: clamp(1.25rem, 4vw, 3rem);
 

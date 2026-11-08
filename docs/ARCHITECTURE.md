@@ -38,7 +38,8 @@ A feature never imports another feature; what two pages share moves to `ui/`, `d
 ## Routing and loading
 
 `Home` loads with the site. Every other page is a lazy route, so it is fetched the first time it
-is opened. `NotFound` sits outside the layout; `Offline` replaces everything while the browser has
+is opened. `/admin/workflow` (the editor of the workflow's phases) is registered only while running
+`npm run dev`: the public build has no editor, and no code for one. `NotFound` sits outside the layout; `Offline` replaces everything while the browser has
 no connection (`app/OnlineGuard.tsx`).
 
 ## Fonts

@@ -18,7 +18,11 @@ const Contact = lazy(() => import('@/features/contact/Contact').then((m) => ({ d
 const ProjectDetail = lazy(() => import('@/features/project-detail/ProjectDetail').then((m) => ({ default: m.ProjectDetail })));
 const Projects = lazy(() => import('@/features/projects/Projects').then((m) => ({ default: m.Projects })));
 const Workflow = lazy(() => import('@/features/workflow/Workflow').then((m) => ({ default: m.Workflow })));
-const WorkflowAdmin = lazy(() => import('@/features/workflow-admin/WorkflowAdmin').then((m) => ({ default: m.WorkflowAdmin })));
+// The phases editor is a tool for the owner: it exists only while developing locally, so the public
+// site has no editor to find (and the build leaves it out).
+const WorkflowAdmin = import.meta.env.DEV
+  ? lazy(() => import('@/features/workflow-admin/WorkflowAdmin').then((m) => ({ default: m.WorkflowAdmin })))
+  : null;
 
 export default function App() {
   usePressHold();
@@ -40,7 +44,7 @@ export default function App() {
                   <Route path="/about" element={<About />} />
                   <Route path="/workflow" element={<Workflow />} />
                   <Route path="/contact" element={<Contact />} />
-                  <Route path="/admin/workflow" element={<WorkflowAdmin />} />
+                  {WorkflowAdmin && <Route path="/admin/workflow" element={<WorkflowAdmin />} />}
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>

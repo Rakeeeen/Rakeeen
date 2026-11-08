@@ -21,6 +21,9 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Small labels, kickers and numbers are set in Geist Mono. */
+.mono { font-family: var(--font-mono), monospace; }
+
 /* Arabic text takes Thmanyah; numbers and labels in Latin type keep Geist Mono. */
 :lang(ar), [dir='rtl'] {
   font-family: var(--font-arabic), sans-serif;
@@ -90,6 +93,8 @@ select:-webkit-autofill {
 }
 
 /* Corner smoothing, as Figma and iOS draw it. Browsers without it keep the plain radius. */
+.rounded-card { border-radius: var(--radius-card); }
+.rounded-box { border-radius: var(--radius-box); }
 .card, .rounded-card, .rounded-box { corner-shape: squircle; }
 
 @media (prefers-reduced-motion: reduce) {

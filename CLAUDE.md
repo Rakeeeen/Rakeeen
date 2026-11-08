@@ -1,10 +1,10 @@
 # Rakeeen — portfolio
 
 Hamed's personal portfolio: React 19, TypeScript (strict), Vite 6, plain CSS next to each component
-(Tailwind 4 supplies the reset), Firestore for content, three languages (English, Arabic RTL, Italian). Deployed to
-GitHub Pages under `/Rakeeen/`. It is being redesigned in the spirit of the Haus app (silver,
-a rare purple accent, retro-futurism, one spring motion system), on the local branch `redesign`.
-Never push that branch; never read `.env`.
+(a small reset in `styles/reset.css`), Firestore for content, three languages (English, Arabic RTL, Italian). Deployed to
+GitHub Pages under `/Rakeeen/` with `npm run deploy`. The design follows the Haus app: silver, a rare
+purple accent, retro-futurism, one spring motion system. Work stays local until Hamed says to publish:
+never push or deploy on your own, and never read `.env`.
 
 **Read `docs/ARCHITECTURE.md` before adding or moving a file.**
 

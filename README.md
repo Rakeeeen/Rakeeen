@@ -1,6 +1,6 @@
 # Rakeeen — portfolio
 
-Hamed Walid's portfolio: React 19, TypeScript, Vite, Tailwind 4, GSAP and Firestore, in English,
+Hamed Walid's portfolio: React 19, TypeScript, Vite and Firestore, in English,
 Arabic (RTL) and Italian.
 
 ```bash
