@@ -4,6 +4,7 @@
 @import './tokens.css';
 @import './base.css';
 @import './button.css';
+@import './motion.css';
 
 /* LEGACY — the old brutalist styles of the pages not yet redone. Each phase replaces a page with
    its own stylesheet next to it and deletes the rules it no longer needs from here. */

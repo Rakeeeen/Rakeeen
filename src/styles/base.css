@@ -47,12 +47,10 @@ select:-webkit-autofill {
 ::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--ink) 28%, transparent); }
 ::-webkit-scrollbar-thumb:hover { background: var(--ink); }
 
-/* The custom cursor draws the pointer on desktop; touch and small screens keep the system's. */
+/* The custom cursor (ui/CustomCursor, styled in motion.css) draws the pointer on desktop; touch and
+   small screens keep the system's. */
 @media (min-width: 769px) and (hover: hover) {
   *, *::before, *::after { cursor: none !important; }
-}
-@media (max-width: 768px), (hover: none) {
-  .custom-cursor-wrapper { display: none !important; }
 }
 
 /* Big titles: the page's aluminum, clipped to the letters. */

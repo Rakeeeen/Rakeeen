@@ -1,0 +1,57 @@
+/* Motion. One spring (tokens.css) for everything that moves; colour and opacity never overshoot,
+   so they keep plain easing. Nothing zooms: a touched thing stretches only towards its neighbours
+   and they yield, so labels stay still and sharp. */
+
+/* Entrance: each piece rises into place a beat after the one before it (--step: 0, 1, 2 …). */
+.rise {
+  animation: rise 0.9s var(--spring) backwards;
+  animation-delay: calc(var(--step, 0) * 120ms + 60ms);
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(1.5rem); }
+}
+
+/* Things sitting side by side share their space. A pressed one reaches towards its neighbour and the
+   neighbour gives that much way, so the row keeps its length and the far edges stay put. The
+   children set their own padding from --pad plus these two. `next` and `prev` follow the reading
+   direction, so it works the same in Arabic. */
+.spring-group > * {
+  --reach-next: 0px;
+  --reach-prev: 0px;
+  transition-property: padding-inline-start, padding-inline-end, background-color, border-color, color;
+  transition-duration: var(--spring-duration), var(--spring-duration), 0.2s, 0.2s, 0.2s;
+  transition-timing-function: var(--spring), var(--spring), ease, ease, ease;
+}
+.spring-group > [data-pressed]:has(+ *) { --reach-next: 8px; }
+.spring-group > * + [data-pressed] { --reach-prev: 8px; }
+.spring-group > [data-pressed] + * { --reach-prev: -8px; }
+.spring-group > :has(+ [data-pressed]) { --reach-next: -8px; }
+
+/* The custom pointer's arrow: over something clickable it tilts, as a hand turns a pen towards a
+   button; pressed, it squeezes towards its tip. The origin is the tip, so the point it clicks at never
+   moves. At rest it leans a little to the right. */
+.custom-cursor-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 28px;
+  height: 28px;
+  display: none;
+  pointer-events: none;
+  z-index: 99999;
+  will-change: transform;
+}
+@media (min-width: 769px) and (hover: hover) { .custom-cursor-wrapper { display: flex; } }
+.custom-cursor-svg {
+  transform: rotate(10deg) translate(-2px, -2px);
+  transform-origin: 19% 12%;
+  transition: transform var(--spring-duration) var(--spring);
+}
+.custom-cursor-wrapper[data-hover] .custom-cursor-svg { transform: rotate(17deg) translate(-2px, -2px) scale(1.1); }
+.custom-cursor-wrapper[data-pressed] .custom-cursor-svg { transform: rotate(10deg) translate(-2px, -2px) scale(0.84); }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise { animation: none; }
+  .spring-group > * { --reach-next: 0px !important; --reach-prev: 0px !important; }
+  .custom-cursor-svg { transition: none; }
+}

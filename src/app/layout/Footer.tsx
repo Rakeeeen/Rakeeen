@@ -11,18 +11,16 @@ export const Footer = () => {
 
   return (
     <footer className="footer">
-      <ul className="footer__socials">
+      <div className="footer__socials spring-group">
         {SOCIALS.map((name) => {
           const url = siteConfig.socials[name];
           return url ? (
-            <li key={name}>
-              <a className="footer__social" href={url} target="_blank" rel="noreferrer">
-                {name}
-              </a>
-            </li>
+            <a key={name} className="footer__social" href={url} target="_blank" rel="noreferrer">
+              {name}
+            </a>
           ) : null;
         })}
-      </ul>
+      </div>
 
       <p className="footer__credit">
         <MascotFace size={24} color="currentColor" />

@@ -66,19 +66,7 @@
 .home__cta { min-height: 3.25rem; padding-inline: 2rem; }
 [dir='rtl'] .home__arrow { display: inline-block; transform: scaleX(-1); }
 
-/* Entrance: each piece rises into place a beat after the one before it. */
-.home__kicker, .home__title, .home__row {
-  animation: home-rise 0.9s var(--spring) backwards;
-  animation-delay: calc(var(--step, 0) * 120ms + 60ms);
-}
+/* The entrance is the shared .rise (motion.css), one --step apart. */
 .home__kicker { --step: 0; }
 .home__title { --step: 1; }
 .home__row { --step: 3; }
-
-@keyframes home-rise {
-  from { opacity: 0; transform: translateY(1.5rem); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home__kicker, .home__title, .home__row { animation: none; }
-}

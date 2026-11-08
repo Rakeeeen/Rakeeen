@@ -57,7 +57,9 @@
 .navbar__controls { display: flex; align-items: center; gap: 0.5rem; }
 
 .navbar__link {
-  padding: 0.45rem 0.9rem;
+  --pad: 0.9rem;
+  padding-block: 0.45rem;
+  padding-inline: calc(var(--pad) + var(--reach-prev, 0px)) calc(var(--pad) + var(--reach-next, 0px));
   border-radius: 9999px;
   font-family: var(--font-mono), monospace;
   font-size: 0.72rem;
@@ -66,7 +68,6 @@
   text-transform: uppercase;
   color: color-mix(in srgb, var(--nav-ink) 55%, transparent);
   text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 .navbar__link:hover { color: var(--nav-ink); }
 .navbar__link--active {
@@ -154,7 +155,7 @@
   }
   .navbar__panel--open { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
   .navbar__links { flex-direction: column; gap: 0.75rem; }
-  .navbar__link { font-size: 1.1rem; padding: 0.7rem 1.6rem; }
+  .navbar__link { --pad: 1.6rem; font-size: 1.1rem; padding-block: 0.7rem; }
   .navbar--open { --nav-ink: var(--ink); }
 }
 

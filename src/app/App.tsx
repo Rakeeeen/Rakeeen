@@ -9,6 +9,7 @@ import { ScrollToTop } from '@/app/ScrollToTop';
 import { Home } from '@/features/home/Home';
 import { NotFound } from '@/features/status/NotFound';
 import { LangProvider } from '@/i18n/LangContext';
+import { usePressHold } from '@/ui/usePressHold';
 
 // Home loads with the site; every other page loads the first time it is opened.
 const About = lazy(() => import('@/features/about/About').then((m) => ({ default: m.About })));
@@ -19,6 +20,8 @@ const Workflow = lazy(() => import('@/features/workflow/Workflow').then((m) => (
 const WorkflowAdmin = lazy(() => import('@/features/workflow-admin/WorkflowAdmin').then((m) => ({ default: m.WorkflowAdmin })));
 
 export default function App() {
+  usePressHold();
+
   return (
     <LangProvider>
       <SiteContentProvider>

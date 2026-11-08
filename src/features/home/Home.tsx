@@ -22,11 +22,11 @@ export const Home = () => {
   return (
     <div className="home">
       <section className="home__hero">
-        <p className="home__kicker mono">{t('productBuilder')}</p>
+        <p className="rise home__kicker mono">{t('productBuilder')}</p>
 
-        <h1 className="home__title text-silver">{headline}</h1>
+        <h1 className="rise home__title text-silver">{headline}</h1>
 
-        <div className="home__row">
+        <div className="rise home__row">
           {portrait && <img className="home__portrait rounded-card" src={portrait} alt="" />}
           <p className="home__lede">{subtitle}</p>
           <Button className="home__cta" onClick={() => navigate('/workflow')}>

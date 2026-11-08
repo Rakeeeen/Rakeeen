@@ -39,6 +39,13 @@ A feature never imports another feature; what two pages share moves to `ui/`, `d
 is opened. `NotFound` sits outside the layout; `Offline` replaces everything while the browser has
 no connection (`app/OnlineGuard.tsx`).
 
+## Motion
+
+One spring for everything (`--spring` in `styles/tokens.css`, the same physics as Haus). CSS runs it:
+`.rise` for entrances (one `--step` apart), `.spring-group` for neighbours that push each other,
+`data-pressed` (held at least 140 ms by `ui/usePressHold`) for presses, and the arrow of the custom
+cursor. There is no JavaScript animation library; colour and opacity use plain easing.
+
 ## Tests
 
 Pure logic runs under vitest in plain node (`src/**/*.test.ts`). Anything that needs the DOM is

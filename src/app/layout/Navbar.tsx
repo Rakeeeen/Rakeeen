@@ -54,7 +54,7 @@ export const Navbar = ({ isOverlay = false }: { isOverlay?: boolean }) => {
       </button>
 
       <div className={`navbar__panel ${isMenuOpen ? 'navbar__panel--open' : ''}`}>
-        <div className="navbar__links">
+        <div className="navbar__links spring-group">
           {LINKS.map(({ labelKey, path }) => (
             <Link
               key={path}
