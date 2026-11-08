@@ -18,8 +18,7 @@
 :lang(ar) .about__title { letter-spacing: 0; line-height: 1.2; text-transform: none; }
 :lang(ar) .about__heading { letter-spacing: 0; }
 
-.about__intro { display: grid; gap: 3rem; align-items: start; }
-.about__intro--with-portrait { grid-template-columns: 1fr 17.5rem; }
+.about__intro { display: grid; grid-template-columns: 1fr 17.5rem; gap: 3rem; align-items: start; }
 .about__bio { max-width: 42rem; font-size: clamp(1.1rem, 2vw, 1.3rem); line-height: 1.8; color: var(--ink-faded); text-wrap: pretty; }
 .about__tagline {
   display: inline-block;
@@ -31,7 +30,39 @@
   text-transform: uppercase;
   color: var(--ink-faded);
 }
-.about__portrait { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); }
+/* A retro print, still in colour: the photo is warmed and pushed a little towards purple, then a soft
+   purple-to-amber wash, a fine halftone and the site's grain sit on top of it. */
+.about__portrait {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background-color: #0b0a0e;
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+}
+.about__portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(0.28) saturate(1.45) contrast(1.08) brightness(1.06) hue-rotate(-10deg);
+}
+.about__portrait::before,
+.about__portrait::after { content: ''; position: absolute; inset: 0; pointer-events: none; }
+.about__portrait::before {
+  background:
+    radial-gradient(circle at 78% 18%, color-mix(in srgb, var(--sepia) 70%, transparent), transparent 55%),
+    linear-gradient(160deg, color-mix(in srgb, #4d14a2 55%, transparent), transparent 62%);
+  mix-blend-mode: soft-light;
+}
+.about__portrait::after {
+  background:
+    var(--grain-page) 0 0 / 256px 256px,
+    radial-gradient(circle, rgb(0 0 0 / 0.35) 0.6px, transparent 0.8px) 0 0 / 4px 4px;
+  mix-blend-mode: overlay;
+  opacity: 0.8;
+}
 
 .about__section { display: flex; flex-direction: column; }
 
@@ -81,6 +112,6 @@
 .skill__detail { font-size: 0.8rem; color: var(--ink-faded); }
 
 @media (max-width: 768px) {
-  .about__intro--with-portrait { grid-template-columns: 1fr; gap: 2.5rem; }
+  .about__intro { grid-template-columns: 1fr; gap: 2.5rem; }
   .about__portrait { max-width: 15rem; }
 }

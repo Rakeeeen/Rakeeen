@@ -3,6 +3,7 @@ import { useSiteContent } from '@/data/SiteContent';
 import { SkillTag } from '@/features/about/SkillTag';
 import { useActiveStep } from '@/ui/useActiveStep';
 import { useLang } from '@/i18n/LangContext';
+import portraitPhoto from '@/features/about/portrait.png';
 import '@/features/about/about.css';
 
 const step = (n: number) => ({ '--step': n }) as React.CSSProperties;
@@ -16,7 +17,6 @@ export const About = () => {
     document.title = `${t('about')} | Rakeeen`;
   }, [t]);
 
-  const portrait = siteConfig.siteImages.aboutPortrait;
   const bio = resolveField(siteConfig.detailed_summary) || resolveField(siteConfig.summary);
 
   return (
@@ -26,12 +26,15 @@ export const About = () => {
         <h1 className="rise about__title text-silver" style={step(1)}>{t('behindPixels')}</h1>
       </header>
 
-      <section className={`rise about__intro ${portrait ? 'about__intro--with-portrait' : ''}`} style={step(2)}>
+      <section className="rise about__intro" style={step(2)}>
         <div>
           <p className="about__bio">{bio}</p>
           <p className="about__tagline mono">{t('bio_tagline')}</p>
         </div>
-        {portrait && <img className="about__portrait rounded-card" src={portrait} alt={resolveField(siteConfig.name)} />}
+        {/* The print: the photo with a warm colour grade, a purple edge and grain laid over it in CSS. */}
+        <figure className="about__portrait rounded-card">
+          <img src={portraitPhoto} alt={resolveField(siteConfig.name)} width={500} height={500} />
+        </figure>
       </section>
 
       <section className="about__section">
