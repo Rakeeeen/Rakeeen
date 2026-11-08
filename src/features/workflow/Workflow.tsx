@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLang } from '@/i18n/LangContext';
 import { useSiteContent } from '@/data/SiteContent';
+import { Button } from '@/ui/Button';
 
 const fadeUp = (delay: number): React.CSSProperties => ({
   opacity: 0,
@@ -399,15 +400,15 @@ export const Workflow = () => {
             {isAr ? 'اكتشف المزيد من الملف المهني' : 'CONTINUE THE JOURNEY'}
           </p>
           <div style={{ display: 'flex', gap: '1.2rem', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
-            <button className="btn-brutalist" onClick={() => navigate('/projects')} style={{ flex: '1 1 160px', maxWidth: '220px', fontFamily: 'var(--font-mono)' }}>
-              {isAr ? 'أعمالي' : 'Projects'}
-            </button>
-            <button className="btn-brutalist btn-brutalist--outline" onClick={() => navigate('/about')} style={{ flex: '1 1 160px', maxWidth: '220px', fontFamily: 'var(--font-mono)' }}>
-              {isAr ? 'عني' : 'About'}
-            </button>
-            <button className="btn-brutalist btn-brutalist--ghost" onClick={() => navigate('/contact')} style={{ flex: '1 1 160px', maxWidth: '220px', fontFamily: 'var(--font-mono)' }}>
-              {isAr ? 'تواصل معي' : 'Say Heyyy'}
-            </button>
+            <Button onClick={() => navigate('/projects')} style={{ flex: '1 1 160px', maxWidth: '220px' }}>
+              {t('projects')}
+            </Button>
+            <Button tone="outline" onClick={() => navigate('/about')} style={{ flex: '1 1 160px', maxWidth: '220px' }}>
+              {t('about')}
+            </Button>
+            <Button tone="ghost" onClick={() => navigate('/contact')} style={{ flex: '1 1 160px', maxWidth: '220px' }}>
+              {t('sayHeyyy')}
+            </Button>
           </div>
         </div>
 

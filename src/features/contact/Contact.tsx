@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSiteContent } from '@/data/SiteContent';
+import { Button } from '@/ui/Button';
 import { useLang } from '@/i18n/LangContext';
 import { MascotFace } from '@/ui/MascotFace';
 import { db } from '@/data/firebase';
@@ -239,14 +240,13 @@ export const Contact = () => {
                   }}>
                     {successB || t('illGetBack').replace('{name}', form.name)}
                   </p>
-                  <button
-                    type="button"
-                    className="btn-brutalist"
-                    style={{ marginTop: '1.5rem', fontFamily: 'var(--font-mono)' }}
+                  <Button
+                    tone="outline"
+                    style={{ marginTop: '1.5rem' }}
                     onClick={() => { setSent(false); setForm({ name: '', email: '', message: '' }); }}
                   >
                     {t('sendAnother')}
-                  </button>
+                  </Button>
                 </div>
               ) : (
                 /* Full Width Custom Block Fields wrapped in a form element */
@@ -318,22 +318,9 @@ export const Contact = () => {
 
                   {/* CTA Submit Button */}
                   <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
-                    <button
-                      type="submit"
-                      className="btn-brutalist"
-                      disabled={busy}
-                      style={{ 
-                        opacity: busy ? 0.55 : 1, 
-                        minWidth: '180px',
-                        maxWidth: '100%',
-                        fontFamily: 'var(--font-mono)', 
-                        textTransform: 'uppercase',
-                        padding: '1.2rem 2.5rem',
-                        fontSize: '0.9rem'
-                      }}
-                    >
+                    <Button type="submit" disabled={busy} style={{ minWidth: '180px' }}>
                       {busy ? 'SENDING...' : <span dangerouslySetInnerHTML={{ __html: btnLabel || t('send_it') }} />}
-                    </button>
+                    </Button>
                   </div>
 
                 </form>

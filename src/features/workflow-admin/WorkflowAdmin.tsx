@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSiteContent } from '@/data/SiteContent';
+import { Button } from '@/ui/Button';
 import { WorkflowPhase } from '@/domain/content';
 import { db } from '@/data/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -212,11 +213,9 @@ export const WorkflowAdmin = () => {
 
         {/* Save Button */}
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          <button onClick={saveToFirestore} disabled={saving}
-            className="btn-brutalist"
-            style={{ fontFamily: 'var(--font-mono)', minWidth: '200px', opacity: saving ? 0.6 : 1 }}>
+          <Button onClick={saveToFirestore} disabled={saving} style={{ minWidth: '200px' }}>
             {saving ? 'SAVING...' : 'SAVE TO FIRESTORE'}
-          </button>
+          </Button>
           {saved && (
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#22C55E', fontWeight: 700, letterSpacing: '0.1em' }}>
               ✓ SAVED
@@ -282,12 +281,8 @@ export const WorkflowAdmin = () => {
 
               {/* Modal actions */}
               <div style={{ display: 'flex', gap: '0.8rem', marginTop: '2rem', borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}>
-                <button onClick={saveEdit} className="btn-brutalist" style={{ fontFamily: 'var(--font-mono)' }}>
-                  SAVE CHANGES
-                </button>
-                <button onClick={closeEdit} className="btn-brutalist btn-brutalist--outline" style={{ fontFamily: 'var(--font-mono)' }}>
-                  CANCEL
-                </button>
+                <Button onClick={saveEdit}>SAVE CHANGES</Button>
+                <Button tone="outline" onClick={closeEdit}>CANCEL</Button>
               </div>
             </div>
           </div>

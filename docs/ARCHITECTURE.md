@@ -15,7 +15,7 @@ src/
   i18n/               language detection and translation (pure), the interface texts, the provider
   domain/             types of the content, and pure logic (with tests)
   content/            the default content shown until Firestore answers
-  ui/                 pieces shared by several pages (custom cursor, mascot)
+  ui/                 pieces shared by several pages (Button, custom cursor, mascot)
   styles/             tokens.css (palette, fonts, spring), base.css, button.css, textures/; global.css pulls them in
 ```
 

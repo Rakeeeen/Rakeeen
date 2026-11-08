@@ -7,6 +7,7 @@ export const UI_TRANSLATIONS: Translations = {
   home: { en: "Home", ar: "الرئيسية", it: "Home" },
   projects: { en: "Projects", ar: "أعمالي", it: "Progetti" },
   about: { en: "About", ar: "مين حامد؟", it: "Chi Sono" },
+  sayHeyyy: { en: "Say heyyy", ar: "كلمنا", it: "Scrivimi" },
   contact: { en: "Contact", ar: "كلمنا", it: "Contatto" },
   productBuilder: { en: "Product Builder", ar: "باني المنتج", it: "Costruttore di Prodotti" },
   howWeBuild: { en: "HOW I BUILD", ar: "كيف أبني", it: "COME COSTRUISCO" },

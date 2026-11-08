@@ -1,0 +1,164 @@
+/* The top bar. Transparent over the page, with one hairline under it. Links are small mono
+   labels; the current page sits in a quiet round pill. Over a project's cover it turns light. */
+
+.navbar {
+  --nav-ink: var(--ink);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 4rem;
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--nav-ink);
+}
+/* The bar's glass is its own layer: a backdrop-filter on the bar itself would make it the
+   containing block of the phone menu, which has to cover the whole screen. */
+.navbar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.navbar--overlay {
+  --nav-ink: #FAF6EE;
+  position: absolute;
+  inset-inline: 0;
+}
+.navbar--overlay::before { background-color: transparent; backdrop-filter: none; border-bottom-color: transparent; }
+
+.navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: inherit;
+  text-decoration: none;
+}
+.navbar__logo {
+  position: relative;
+  width: 2.25rem;
+  height: 2.25rem;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--nav-ink) 30%, transparent);
+}
+.navbar__logo > * { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.25s ease; }
+.navbar__logo svg { inset: auto; width: 1.75rem; height: 1.75rem; }
+.navbar__name { font-size: 1.05rem; font-weight: 600; letter-spacing: -0.01em; }
+
+.navbar__panel { display: flex; align-items: center; gap: 1.5rem; }
+.navbar__links { display: flex; align-items: center; gap: 0.25rem; }
+.navbar__controls { display: flex; align-items: center; gap: 0.5rem; }
+
+.navbar__link {
+  padding: 0.45rem 0.9rem;
+  border-radius: 9999px;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--nav-ink) 55%, transparent);
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.navbar__link:hover { color: var(--nav-ink); }
+.navbar__link--active {
+  color: var(--nav-ink);
+  background-color: color-mix(in srgb, var(--nav-ink) 10%, transparent);
+}
+
+.theme-toggle,
+.navbar__menu-button {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--nav-ink) 24%, transparent);
+  color: inherit;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.theme-toggle:hover,
+.navbar__menu-button:hover {
+  background-color: color-mix(in srgb, var(--nav-ink) 8%, transparent);
+  border-color: color-mix(in srgb, var(--nav-ink) 50%, transparent);
+}
+.navbar__menu-button { display: none; }
+
+.language-menu { position: relative; }
+.language-menu__trigger {
+  height: 2.25rem;
+  padding-inline: 0.9rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--nav-ink) 24%, transparent);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.language-menu__trigger:hover {
+  background-color: color-mix(in srgb, var(--nav-ink) 8%, transparent);
+  border-color: color-mix(in srgb, var(--nav-ink) 50%, transparent);
+}
+.language-menu__list {
+  position: absolute;
+  inset-inline-end: 0;
+  top: calc(100% + 0.5rem);
+  min-width: 4.5rem;
+  padding: 0.25rem;
+  list-style: none;
+  background: var(--paper-dark);
+  color: var(--ink);
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  animation: language-menu-in 0.2s var(--spring);
+}
+.language-menu__option {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  text-align: start;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: color-mix(in srgb, var(--ink) 65%, transparent);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.language-menu__option:hover { background-color: color-mix(in srgb, var(--ink) 8%, transparent); color: var(--ink); }
+.language-menu__option--selected { color: var(--ink); font-weight: 700; }
+@keyframes language-menu-in { from { opacity: 0; transform: translateY(-4px); } }
+
+@media (max-width: 768px) {
+  .navbar__menu-button { display: grid; z-index: 101; }
+  .navbar__panel {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3rem;
+    padding: 3rem 1.5rem;
+    background-color: var(--paper);
+    color: var(--ink);
+    --nav-ink: var(--ink);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-1rem);
+    transition: opacity 0.3s ease, transform 0.4s var(--spring), visibility 0s linear 0.4s;
+  }
+  .navbar__panel--open { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+  .navbar__links { flex-direction: column; gap: 0.75rem; }
+  .navbar__link { font-size: 1.1rem; padding: 0.7rem 1.6rem; }
+  .navbar--open { --nav-ink: var(--ink); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .language-menu__list { animation: none; }
+  .navbar__panel { transition: none; }
+}
