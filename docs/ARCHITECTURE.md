@@ -1,0 +1,45 @@
+# Architecture
+
+The portfolio is a small single-page app. Content comes from Firestore (edited in the separate
+Dashboard); the interface text is fixed in three languages.
+
+## Folders
+
+```
+src/
+  main.tsx            entry: mounts <App/>, registers the service worker
+  app/                the shell: providers, routes, layout (Navbar, Footer), guards
+  features/           one folder per page; each owns its components, hooks and styles
+    home/  projects/  project-detail/  about/  workflow/  workflow-admin/  contact/  status/
+  data/               everything that talks to Firebase, plus the contexts built on it
+  i18n/               language detection and translation (pure), the interface texts, the provider
+  domain/             types of the content, and pure logic (with tests)
+  content/            the default content shown until Firestore answers
+  ui/                 pieces shared by several pages (custom cursor, mascot)
+  styles/             global CSS: tokens, base, shared components
+```
+
+Dependencies point downwards only: `app → features → data/i18n/domain/content → ui/styles`.
+A feature never imports another feature; what two pages share moves to `ui/`, `domain/` or `i18n/`.
+
+## Data flow
+
+1. `LangProvider` picks the language (saved choice → browser → English) and sets `lang`/`dir` on
+   `<html>`.
+2. `SiteContentProvider` starts with `content/siteDefaults.ts` and replaces it with the Firestore
+   document `content/main` as soon as it arrives. Saved config is merged over the defaults, so a
+   field added later never breaks an old document.
+3. `SettingsProvider` holds the visitor's theme and cursor choice: their own saved choice, then the
+   defaults saved with the content, then the system's theme.
+4. `recordVisit()` (`data/analytics.ts`) counts a visit per session and a visitor per device.
+
+## Routing and loading
+
+`Home` loads with the site. Every other page is a lazy route, so it is fetched the first time it
+is opened. `NotFound` sits outside the layout; `Offline` replaces everything while the browser has
+no connection (`app/OnlineGuard.tsx`).
+
+## Tests
+
+Pure logic runs under vitest in plain node (`src/**/*.test.ts`). Anything that needs the DOM is
+checked in the browser.
