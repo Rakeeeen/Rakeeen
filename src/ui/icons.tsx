@@ -1,7 +1,9 @@
 /**
  * The single source for every plain icon on the site. They are small controls, read at a glance, so
- * the hand-drawn style is kept light: round blunt ends and joins, and a faint tremor in the line
- * (IconTremor). The characterful drawings (the mascot) are fully hand-drawn instead, see ui/Sketch.tsx.
+ * the hand-drawn style is kept light: round blunt ends and joins. The characterful drawings (the
+ * mascot) are fully hand-drawn instead, see ui/Sketch.tsx. There is no SVG filter on these icons:
+ * a filter has to be computed whenever the icon is drawn again, and in some browsers that shows as a
+ * dark flash.
  *
  * Three constants are the whole system; change one here and every icon follows.
  */
@@ -10,18 +12,6 @@ import type { ReactNode } from 'react';
 export const ICON_STROKE_WIDTH = 2;
 export const ICON_STROKE_LINECAP = 'round' as const;
 export const ICON_STROKE_LINEJOIN = 'round' as const;
-
-const TREMOR_ID = 'icon-tremor';
-
-/** An SVG filter that wobbles the line a hair, so it reads as drawn rather than plotted. Mounted once. */
-export const IconTremor = () => (
-  <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden>
-    <filter id={TREMOR_ID} x="-10%" y="-10%" width="120%" height="120%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.3" numOctaves="1" seed="7" />
-      <feDisplacementMap in="SourceGraphic" scale="0.8" xChannelSelector="R" yChannelSelector="G" />
-    </filter>
-  </svg>
-);
 
 interface IconProps {
   size?: number;
@@ -39,7 +29,6 @@ const createIcon = (paths: ReactNode, label: string) => {
       strokeWidth={ICON_STROKE_WIDTH}
       strokeLinecap={ICON_STROKE_LINECAP}
       strokeLinejoin={ICON_STROKE_LINEJOIN}
-      filter={`url(#${TREMOR_ID})`}
       className={className}
       aria-hidden
     >

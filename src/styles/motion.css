@@ -72,9 +72,11 @@
 
 /* Hand-drawn icons: three redraws of each, one showing at a time at four a second, the "line boil"
    of a hand-drawn film, slow enough to read as alive, not as flicker. */
-.sketch-boil { opacity: 0; animation: sketch-boil 0.75s steps(1, end) infinite; }
-@keyframes sketch-boil { 0% { opacity: 1; } 33.333% { opacity: 0; } }
+/* Shown and hidden with `visibility`, not `opacity`: fading a group needs the browser to draw it off
+   to the side first, which can show as a flash when the icon is drawn again. */
+.sketch-boil { visibility: hidden; animation: sketch-boil 0.75s steps(1, end) infinite; }
+@keyframes sketch-boil { 0% { visibility: visible; } 33.333% { visibility: hidden; } }
 @media (prefers-reduced-motion: reduce) {
   .sketch-boil { animation: none; }
-  .sketch-boil-set > .sketch-boil:first-child { opacity: 1; }
+  .sketch-boil-set > .sketch-boil:first-child { visibility: visible; }
 }

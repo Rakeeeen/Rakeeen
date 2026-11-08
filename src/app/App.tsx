@@ -9,7 +9,6 @@ import { ScrollToTop } from '@/app/ScrollToTop';
 import { Home } from '@/features/home/Home';
 import { NotFound } from '@/features/status/NotFound';
 import { LangProvider } from '@/i18n/LangContext';
-import { IconTremor } from '@/ui/icons';
 import { usePressHold } from '@/ui/usePressHold';
 import { useScrollingClass } from '@/ui/useScrollingClass';
 
@@ -31,7 +30,6 @@ export default function App() {
 
   return (
     <LangProvider>
-      <IconTremor />
       <SiteContentProvider>
         <SettingsProvider>
           <OnlineGuard>
