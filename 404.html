@@ -4,32 +4,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" id="favicon" type="image/png" href="/Rakeeen/favicon.png" />
+  <link rel="icon" type="image/svg+xml" href="/Rakeeen/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="48x48" href="/Rakeeen/favicon.png" />
+  <link rel="apple-touch-icon" href="/Rakeeen/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght,grad,xtra,xopq,yopq,ytlc,fidl@8..144,25..151,100..1000,0,468,79,185,423,500,0&display=swap"
-    rel="stylesheet">
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700,800,900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;700&display=swap">
+  <meta name="description" content="Hamed Walid (Rakeeen): a product builder who turns complex ideas into simple, user-friendly products, from first sketch to working design." />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#D6D6D6" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0A0A0A" />
+  <script>
+    // Before anything paints: the visitor's own choice, else the system's theme.
+    try {
+      var saved = localStorage.getItem('visitor_settings');
+      var theme = saved ? JSON.parse(saved).theme : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if (theme === 'dark') document.documentElement.classList.add('dark');
+      document.documentElement.dataset.theme = theme;
+    } catch (e) {}
+  </script>
+  <style>html{background:#D6D6D6}html.dark{background:#0A0A0A;color-scheme:dark}</style>
   <title>Rakeeen — UX Designer</title>
-  <script type="module" crossorigin src="/Rakeeen/assets/index-DPn8wY8Z.js"></script>
-  <link rel="stylesheet" crossorigin href="/Rakeeen/assets/index-BJD7_qlV.css">
+  <script type="module" crossorigin src="/Rakeeen/assets/index-34A9tyyb.js"></script>
+  <link rel="stylesheet" crossorigin href="/Rakeeen/assets/index-Opo6ZgdS.css">
 </head>
 
 <body>
-  <script>
-    try {
-      const local = localStorage.getItem('visitor_settings');
-      let theme = null;
-      if (local) {
-        theme = JSON.parse(local).theme;
-      } else {
-        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
-      if (theme) document.body.classList.add(theme);
-    } catch(e) {}
-  </script>
+  <script>document.body.classList.add(document.documentElement.dataset.theme || "light");</script>
   <div id="root"></div>
-  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </body>
 
 </html>
