@@ -2,8 +2,11 @@
 
 html {
   scroll-behavior: smooth;
-  /* Keep the scrollbar track so the page never shifts sideways when it appears. */
-  scrollbar-gutter: stable;
+  /* The scrollbar's room is always there, so the page never shifts sideways when a page is short
+     enough not to scroll. (`scrollbar-gutter` would do it, but is ignored once the scrollbar is
+     styled; an always-on, transparent track does it for good.) */
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 /* The page behind everything, including the overscroll, in the visitor's theme from the first paint. */
@@ -20,7 +23,6 @@ body {
   color: var(--ink);
   font-family: var(--font-sans);
   min-height: 100vh;
-  overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -52,10 +54,26 @@ select:-webkit-autofill {
   transition: background-color 5000s ease-in-out 0s;
 }
 
-::-webkit-scrollbar { width: 6px; }
+/* The scrollbar: a slim round thumb on a track you cannot see, so a page that does not scroll shows
+   nothing there. The thumb is faint until the page moves (html.is-scrolling, ui/useScrollingClass)
+   or the pointer is on it. */
+::-webkit-scrollbar { width: 12px; height: 12px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--ink) 28%, transparent); }
-::-webkit-scrollbar-thumb:hover { background: var(--ink); }
+::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-thumb {
+  min-height: 3rem;
+  border: 4px solid transparent;
+  border-radius: 9999px;
+  background-color: color-mix(in srgb, var(--ink) 16%, transparent);
+  background-clip: padding-box;
+  transition: background-color 0.4s ease;
+}
+html.is-scrolling ::-webkit-scrollbar-thumb { background-color: color-mix(in srgb, var(--ink) 45%, transparent); }
+::-webkit-scrollbar-thumb:hover { background-color: var(--ink); }
+/* Firefox has no pseudo-elements; it takes the same two colours. */
+@supports (-moz-appearance: none) {
+  html { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--ink) 30%, transparent) transparent; }
+}
 
 /* A page's column: as wide as the bar above it, with the shared side margin, and the same room above
    its first thing and below its last on every page. */

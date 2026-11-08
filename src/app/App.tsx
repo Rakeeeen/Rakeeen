@@ -11,6 +11,7 @@ import { NotFound } from '@/features/status/NotFound';
 import { LangProvider } from '@/i18n/LangContext';
 import { IconTremor } from '@/ui/icons';
 import { usePressHold } from '@/ui/usePressHold';
+import { useScrollingClass } from '@/ui/useScrollingClass';
 
 // Home loads with the site; every other page loads the first time it is opened.
 const About = lazy(() => import('@/features/about/About').then((m) => ({ default: m.About })));
@@ -26,6 +27,7 @@ const WorkflowAdmin = import.meta.env.DEV
 
 export default function App() {
   usePressHold();
+  useScrollingClass();
 
   return (
     <LangProvider>
