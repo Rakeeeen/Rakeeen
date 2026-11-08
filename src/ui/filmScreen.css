@@ -1,0 +1,174 @@
+/* A frame of old film, in the site's silver: sprocket holes, strips of small print, grain and
+   scratches, and a title that splits into two colours and flickers when something is wrong. The grain
+   is the site's own texture stepping about (a still image, cheap to move) instead of noise redrawn
+   every frame. */
+
+.film {
+  --film-edge: clamp(28px, 4vw, 48px);
+  --film-strip: clamp(32px, 5vh, 40px);
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: var(--ink);
+  background-color: var(--paper);
+}
+
+.film__grain {
+  position: fixed;
+  inset: -20%;
+  z-index: 10;
+  pointer-events: none;
+  background-image: var(--grain-page);
+  background-size: 256px 256px;
+  opacity: 0.55;
+  animation: film-grain 0.8s steps(1, end) infinite;
+}
+@keyframes film-grain {
+  0% { transform: translate(0, 0); }
+  17% { transform: translate(-7%, 4%); }
+  33% { transform: translate(5%, -6%); }
+  50% { transform: translate(-3%, -2%); }
+  67% { transform: translate(8%, 5%); }
+  83% { transform: translate(-5%, 7%); }
+}
+
+.film__scratch {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 11;
+  width: 1px;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--ink) 45%, transparent);
+  opacity: 0;
+  animation: film-scratch 7s steps(1, end) infinite;
+}
+.film__scratch--a { left: 23%; animation-delay: -1s; }
+.film__scratch--b { left: 71%; animation-delay: -4.2s; animation-duration: 9s; }
+@keyframes film-scratch {
+  0%, 100% { opacity: 0; }
+  40% { opacity: 0.7; transform: translateX(1px); }
+  42% { opacity: 0; }
+  75% { opacity: 0.5; transform: translateX(-2px); }
+  76% { opacity: 0; }
+}
+
+.film__sprockets {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 20;
+  width: var(--film-edge);
+  padding-block: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--paper-dark);
+}
+.film__sprockets--start { inset-inline-start: 0; }
+.film__sprockets--end { inset-inline-end: 0; }
+.film__sprockets i {
+  width: clamp(12px, 2vw, 20px);
+  height: clamp(8px, 1.2vw, 14px);
+  background-color: var(--paper);
+  border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+}
+
+.film__strip {
+  position: fixed;
+  inset-inline: var(--film-edge);
+  z-index: 15;
+  height: var(--film-strip);
+  padding-inline: clamp(12px, 3vw, 24px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: var(--paper-dark);
+  font-size: clamp(0.45rem, 1.2vw, 0.6rem);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 40%, transparent);
+}
+.film__strip--top { top: 0; border-bottom: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); }
+.film__strip--bottom { bottom: 0; border-top: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); }
+.film__faint { opacity: 0.5; }
+.film__lights { margin-inline-start: auto; }
+
+.film__content {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 44rem;
+  padding-inline: calc(var(--film-edge) + clamp(16px, 5vw, 60px));
+  padding-block: calc(var(--film-strip) + clamp(20px, 5vh, 60px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.film__content--glitching { animation: film-flicker 4s infinite; }
+
+.film__title {
+  font-size: clamp(3rem, 14vw, 9rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: clamp(0.3rem, 1vh, 0.6rem);
+}
+.film__content--glitching .film__title {
+  text-shadow: 2px 0 0 color-mix(in srgb, var(--rust) 55%, transparent), -2px 0 0 color-mix(in srgb, #8E5BEA 55%, transparent);
+  animation: film-glitch 6s infinite;
+}
+:lang(ar) .film__title, :lang(ar) .film__subtitle, :lang(ar) .film__body { letter-spacing: 0; }
+
+.film__subtitle {
+  margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  font-size: clamp(0.55rem, 2vw, 0.85rem);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+}
+
+.film__bars {
+  width: clamp(160px, 50%, 260px);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+}
+.film__bars span { height: 5px; background-color: var(--ink); }
+
+.film__body {
+  max-width: 24rem;
+  margin-bottom: clamp(1.5rem, 4vh, 2.5rem);
+  font-size: clamp(0.65rem, 1.8vw, 0.82rem);
+  letter-spacing: 0.12em;
+  line-height: 2;
+  text-transform: uppercase;
+  white-space: pre-line;
+  color: var(--ink-faded);
+}
+
+@keyframes film-glitch {
+  0%, 90%, 100% { transform: translate(0); clip-path: inset(0); }
+  91% { transform: translate(-3px, 1px); clip-path: inset(0); }
+  92% { transform: translate(3px, -1px); clip-path: inset(0); }
+  93% { transform: translate(-2px, 2px); clip-path: inset(20% 0 30% 0); }
+  94% { transform: translate(0); clip-path: inset(0); }
+}
+@keyframes film-flicker {
+  0%, 95%, 100% { opacity: 1; }
+  96% { opacity: 0.75; }
+  97% { opacity: 1; }
+  98% { opacity: 0.55; }
+  99% { opacity: 0.9; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .film__grain, .film__scratch, .film__content--glitching, .film__content--glitching .film__title { animation: none; }
+}

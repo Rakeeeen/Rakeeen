@@ -1,13 +1,17 @@
 import { useEffect, useState, type ReactNode } from 'react';
+import { connectionAfter, type Connection } from '@/domain/connection';
 import { Offline } from '@/features/status/Offline';
 
-/** Shows the offline page while the browser has no connection. */
+/**
+ * Shows the offline screen while the browser has no connection, and keeps it, with a way back in,
+ * after the signal returns (the site reloads when the visitor takes it).
+ */
 export const OnlineGuard = ({ children }: { children: ReactNode }) => {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [connection, setConnection] = useState<Connection>(() => (navigator.onLine ? 'online' : 'offline'));
 
   useEffect(() => {
-    const goOnline = () => setIsOnline(true);
-    const goOffline = () => setIsOnline(false);
+    const goOnline = () => setConnection((previous) => connectionAfter(previous, true));
+    const goOffline = () => setConnection((previous) => connectionAfter(previous, false));
     window.addEventListener('online', goOnline);
     window.addEventListener('offline', goOffline);
     return () => {
@@ -16,5 +20,5 @@ export const OnlineGuard = ({ children }: { children: ReactNode }) => {
     };
   }, []);
 
-  return isOnline ? <>{children}</> : <Offline />;
+  return connection === 'online' ? <>{children}</> : <Offline isOnline={connection === 'restored'} />;
 };
