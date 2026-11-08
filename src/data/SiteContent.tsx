@@ -16,6 +16,7 @@ import type {
   WorkflowPhase,
 } from '@/domain/content';
 import { db } from '@/data/firebase';
+import { fontsReady } from '@/ui/fontsReady';
 
 interface SiteContentValue {
   siteConfig: SiteConfig;
@@ -53,7 +54,7 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
   // The content is read once when the site opens; what the Dashboard saves shows on the next visit.
   useEffect(() => {
     let cancelled = false;
-    // If the answer is slow, the site opens with its defaults rather than keeping the visitor waiting.
+    // If the answer or the fonts are slow, the site opens as it is rather than keeping the visitor waiting.
     const giveUp = window.setTimeout(() => setIsReady(true), READY_TIMEOUT_MS);
     const ref = doc(db, ...CONTENT_DOC);
     getDoc(ref)
@@ -88,6 +89,7 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
         if (data.settings) setRemoteSettings(data.settings);
       })
       .catch((error) => console.warn('Content could not be loaded; showing the defaults.', error))
+      .then(fontsReady)
       .finally(() => {
         if (!cancelled) setIsReady(true);
       });
