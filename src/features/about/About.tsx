@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useSiteContent } from '@/data/SiteContent';
 import { SkillTag } from '@/features/about/SkillTag';
-import { useActiveStep } from '@/features/about/useActiveStep';
+import { useActiveStep } from '@/ui/useActiveStep';
 import { useLang } from '@/i18n/LangContext';
 import '@/features/about/about.css';
 

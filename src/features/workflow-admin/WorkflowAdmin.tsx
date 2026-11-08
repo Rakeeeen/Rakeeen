@@ -7,10 +7,6 @@ import { WorkflowPhase } from '@/domain/content';
 import { db } from '@/data/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 
-const PHASE_COLORS = [
-  'var(--sepia)','#3B82F6','#A855F7','#F97316','#22C55E','#EC4899','#14B8A6','#F59E0B',
-];
-
 const EMPTY_PHASE: WorkflowPhase = {
   en_title: '',
   ar_title: '',
@@ -23,7 +19,7 @@ const EMPTY_PHASE: WorkflowPhase = {
 };
 
 const VectorPreview = ({ index, size = 28 }: { index: number; size?: number }) => (
-  <span style={{ display: 'inline-flex', color: PHASE_COLORS[index % PHASE_COLORS.length] }}>
+  <span style={{ display: 'inline-flex', color: 'var(--ink)' }}>
     <PixelGlyph pixels={PHASE_GLYPHS[index % PHASE_GLYPHS.length]} size={size} />
   </span>
 );
@@ -201,7 +197,7 @@ export const WorkflowAdmin = () => {
             {saving ? 'SAVING...' : 'SAVE TO FIRESTORE'}
           </Button>
           {saved && (
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#22C55E', fontWeight: 700, letterSpacing: '0.1em' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--forest)', fontWeight: 700, letterSpacing: '0.1em' }}>
               ✓ SAVED
             </span>
           )}

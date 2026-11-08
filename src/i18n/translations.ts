@@ -15,6 +15,7 @@ export const UI_TRANSLATIONS: Translations = {
   roadTravelled: { en: "The road I travelled", ar: "رحلتي حتى الآن", it: "La strada percorsa" },
   myNarrative: { en: "My narrative", ar: "الرحلة والخبرات", it: "La mia storia" },
   theToolkit: { en: "The toolkit", ar: "القدرات والأسلحة", it: "Gli strumenti" },
+  continueJourney: { en: "Continue the journey", ar: "اكتشف المزيد من الملف المهني", it: "Continua il viaggio" },
   sayHeyyy: { en: "Say heyyy", ar: "كلمنا", it: "Scrivimi" },
   contact: { en: "Contact", ar: "كلمنا", it: "Contatto" },
   productBuilder: { en: "Product Builder", ar: "باني المنتج", it: "Costruttore di Prodotti" },
