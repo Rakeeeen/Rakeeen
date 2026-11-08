@@ -69,3 +69,28 @@
 .home__kicker { --step: 0; }
 .home__title { --step: 1; }
 .home__row { --step: 3; }
+
+/* The strip of shapes under the hero. It always reads left to right, even in Arabic: the shapes are
+   placed by their x position. */
+.ticker {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 7.5rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  direction: ltr;
+}
+.ticker__strip { position: relative; width: 100%; height: 3.75rem; will-change: transform; }
+.ticker__item {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  opacity: 0.55;
+}
