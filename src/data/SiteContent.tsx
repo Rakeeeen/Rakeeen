@@ -25,6 +25,9 @@ interface SiteContentValue {
   workflowPhases: WorkflowPhase[];
   /** The visitor-facing defaults stored with the content, applied until the visitor chooses. */
   remoteSettings: UISettings | null;
+  /** False until the saved content has arrived (or it clearly will not): before that, the texts on
+   *  screen would be the defaults, and then change under the visitor's eyes. */
+  isReady: boolean;
   /** Saves the phases to the content document, and shows them straight away. */
   saveWorkflowPhases: (phases: WorkflowPhase[]) => Promise<void>;
 }
@@ -32,6 +35,7 @@ interface SiteContentValue {
 const SiteContentContext = createContext<SiteContentValue | undefined>(undefined);
 
 const CONTENT_DOC = ['content', 'main'] as const;
+const READY_TIMEOUT_MS = 2500;
 
 /**
  * The site's content: the defaults in `content/siteDefaults.ts` until Firestore answers, then
@@ -44,10 +48,13 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
   const [competencies, setCompetencies] = useState<Competency[]>(COMPETENCIES);
   const [workflowPhases, setWorkflowPhases] = useState<WorkflowPhase[]>(DEFAULT_WORKFLOW_PHASES);
   const [remoteSettings, setRemoteSettings] = useState<UISettings | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
   // The content is read once when the site opens; what the Dashboard saves shows on the next visit.
   useEffect(() => {
     let cancelled = false;
+    // If the answer is slow, the site opens with its defaults rather than keeping the visitor waiting.
+    const giveUp = window.setTimeout(() => setIsReady(true), READY_TIMEOUT_MS);
     const ref = doc(db, ...CONTENT_DOC);
     getDoc(ref)
       .then((snapshot) => {
@@ -80,9 +87,13 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
         if (data.workflowPhases) setWorkflowPhases(data.workflowPhases);
         if (data.settings) setRemoteSettings(data.settings);
       })
-      .catch((error) => console.warn('Content could not be loaded; showing the defaults.', error));
+      .catch((error) => console.warn('Content could not be loaded; showing the defaults.', error))
+      .finally(() => {
+        if (!cancelled) setIsReady(true);
+      });
     return () => {
       cancelled = true;
+      window.clearTimeout(giveUp);
     };
   }, []);
 
@@ -93,7 +104,7 @@ export const SiteContentProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <SiteContentContext.Provider
-      value={{ siteConfig, projects, timeline, competencies, workflowPhases, remoteSettings, saveWorkflowPhases }}
+      value={{ siteConfig, projects, timeline, competencies, workflowPhases, remoteSettings, isReady, saveWorkflowPhases }}
     >
       {children}
     </SiteContentContext.Provider>

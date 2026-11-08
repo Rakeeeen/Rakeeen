@@ -42,7 +42,8 @@
     linear-gradient(#3C3C3C, #3C3C3C);
 }
 
-body.dark {
+/* On <html> from the first moment (index.html), and on <body> once the app is up. */
+.dark {
   --bg: #0A0A0A;
   --paper: #0A0A0A;
   --paper-dark: #000000;

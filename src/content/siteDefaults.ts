@@ -33,11 +33,9 @@ export const SITE_CONFIG: SiteConfig = {
     behance: "https://www.behance.net/rakeeen"
   },
   siteImages: {
-    // Local deployment: keep only the favicon locally. Images are served from Cloudinary via the dashboard.
+    // Images are served from Cloudinary via the dashboard. The favicon is the site's own logo (public/).
     navbarLogo: "",
     aboutPortrait: "",
-    // Use local favicon file in `public/` to ensure consistent favicon loading.
-    favicon: "/favicon.png",
     contactBackground: "",
     projectDetail1: "",
     projectDetail2: "",

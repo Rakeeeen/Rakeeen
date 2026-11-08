@@ -6,6 +6,9 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* The page behind everything, including the overscroll, in the visitor's theme from the first paint. */
+html { background-color: var(--paper); }
+
 body {
   background-color: var(--paper);
   background-image: var(--grain-page), var(--cloud-page);

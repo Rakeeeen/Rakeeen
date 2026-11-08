@@ -1,22 +1,15 @@
 import { useEffect } from 'react';
 import { useSettings } from '@/data/Settings';
-import { useSiteContent } from '@/data/SiteContent';
 
-/** Mirrors the theme and the favicon from the site's state onto the document. */
+/** Mirrors the visitor's theme onto the page, so every colour token follows it. */
 export const DocumentSync = () => {
   const { theme } = useSettings();
-  const { siteConfig } = useSiteContent();
-  const favicon = siteConfig.siteImages.favicon;
 
   useEffect(() => {
     document.body.classList.remove('light', 'dark');
     document.body.classList.add(theme);
+    document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
-
-  useEffect(() => {
-    const link = document.getElementById('favicon') as HTMLLinkElement | null;
-    if (link && favicon) link.href = favicon;
-  }, [favicon]);
 
   return null;
 };

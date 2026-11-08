@@ -29,7 +29,6 @@ export interface SocialLinks {
 export interface SiteImages {
   navbarLogo?: string;
   aboutPortrait?: string;
-  favicon?: string;
   contactBackground?: string;
   projectDetail1?: string;
   projectDetail2?: string;
