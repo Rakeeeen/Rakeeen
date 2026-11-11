@@ -12,7 +12,8 @@ export function useScrollingClass() {
     const root = document.documentElement;
     let timer = 0;
     const onScroll = () => {
-      root.classList.add('is-scrolling');
+      // Only when it changes: setting the class again on every scroll event still restyles the page.
+      if (!root.classList.contains('is-scrolling')) root.classList.add('is-scrolling');
       window.clearTimeout(timer);
       timer = window.setTimeout(() => root.classList.remove('is-scrolling'), SETTLE_MS);
     };

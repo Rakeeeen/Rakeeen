@@ -1,4 +1,5 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
+import { joinBoil } from '@/ui/boilClock';
 import type { Layers } from '@/ui/sketchIcons.data';
 
 /**
@@ -20,27 +21,26 @@ const Sketch = ({ layers }: { layers: Layers }) => (
 interface SketchIconViewProps {
   frames: readonly Layers[];
   size: number;
-  /** Seconds for all redraws to show once. */
-  cycle?: number;
   className?: string;
 }
 
 /**
- * The "line boil" of a hand-drawn film: three slightly different redraws, one showing at a time
- * (motion.css, .sketch-boil). With reduced motion only the first stays.
+ * The "line boil" of a hand-drawn film: three slightly different redraws, one showing at a time, four
+ * a second. Which one shows is decided by one clock for the whole page (ui/boilClock.ts) through an
+ * attribute on <html>, and motion.css shows it: nothing here animates. With reduced motion the first
+ * redraw stays.
  */
-export const SketchIconView = ({ frames, size, cycle = 0.75, className }: SketchIconViewProps) => (
-  <svg width={size} height={size} viewBox="0 0 1000 1000" className={className} aria-hidden overflow="visible">
-    <g className="sketch-boil-set">
-      {frames.map((layers, i) => (
-        <g
-          key={i}
-          className="sketch-boil"
-          style={{ animationDuration: `${cycle}s`, animationDelay: `${(-i * cycle) / frames.length}s` }}
-        >
-          <Sketch layers={layers} />
-        </g>
-      ))}
-    </g>
-  </svg>
-);
+export const SketchIconView = ({ frames, size, className }: SketchIconViewProps) => {
+  useEffect(joinBoil, []);
+  return (
+    <svg width={size} height={size} viewBox="0 0 1000 1000" className={className} aria-hidden overflow="visible">
+      <g className="sketch-boil-set">
+        {frames.map((layers, i) => (
+          <g key={i} className="sketch-boil" data-f={i}>
+            <Sketch layers={layers} />
+          </g>
+        ))}
+      </g>
+    </svg>
+  );
+};

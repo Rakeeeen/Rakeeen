@@ -68,6 +68,13 @@ cards in a grid (`ui/usePushNeighbours` marks the pressed card and the ones besi
 `data-pressed` (held at least 140 ms by `ui/usePressHold`) for presses, and the arrow of the custom
 cursor. There is no JavaScript animation library; colour and opacity use plain easing.
 
+The hand-drawn icons' line boil is not an animation per icon: `ui/boilClock.ts` is one timer that sets
+`data-boil` on `<html>` while an icon is mounted, and `motion.css` shows the matching redraw of every
+icon (the first one when there is no clock: reduced motion, a hidden tab). The page's surface is two
+layers behind everything (`body::before`, fixed, the paper and its patches; `body::after`, the grain,
+scrolling with the page) and `.text-silver` has its own layer, so scrolling and the icons' redraws
+never repaint them. The home strip moves its shapes by `transform` only.
+
 ## Tests
 
 Pure logic runs under vitest in plain node (`src/**/*.test.ts`). Anything that needs the DOM is

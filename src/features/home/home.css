@@ -90,6 +90,7 @@
 .ticker__item {
   position: absolute;
   top: 50%;
+  left: 0; /* the strip is always left to right (above); the shape's place along it is its transform */
   transform: translateY(-50%);
   display: flex;
   align-items: center;

@@ -71,12 +71,15 @@
 }
 
 /* Hand-drawn icons: three redraws of each, one showing at a time at four a second, the "line boil"
-   of a hand-drawn film, slow enough to read as alive, not as flicker. */
-/* Shown and hidden with `visibility`, not `opacity`: fading a group needs the browser to draw it off
-   to the side first, which can show as a flash when the icon is drawn again. */
-.sketch-boil { visibility: hidden; animation: sketch-boil 0.75s steps(1, end) infinite; }
-@keyframes sketch-boil { 0% { visibility: visible; } 33.333% { visibility: hidden; } }
-@media (prefers-reduced-motion: reduce) {
-  .sketch-boil { animation: none; }
-  .sketch-boil-set > .sketch-boil:first-child { visibility: visible; }
-}
+   of a hand-drawn film, slow enough to read as alive, not as flicker.
+   Nothing here is an animation: ui/boilClock.ts keeps one timer for the whole page and sets
+   data-boil on <html> (which redraw shows). Each redraw says which one it is (data-f), so one attribute
+   change shows the right redraw of every icon at once, instead of one animation per redraw. Shown and
+   hidden with `visibility`, not `opacity`: fading a group needs the browser to draw it off to the side
+   first, which can show as a flash. With no clock (reduced motion, a hidden tab) the attribute is
+   absent and the first redraw stays, so an icon is never empty. */
+.sketch-boil { visibility: hidden; }
+html:not([data-boil]) .sketch-boil[data-f='0'],
+html[data-boil='0'] .sketch-boil[data-f='0'],
+html[data-boil='1'] .sketch-boil[data-f='1'],
+html[data-boil='2'] .sketch-boil[data-f='2'] { visibility: visible; }

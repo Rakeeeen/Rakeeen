@@ -13,17 +13,37 @@ html {
 html { background-color: var(--paper); }
 
 body {
-  background-color: var(--paper);
-  background-image: var(--grain-page), var(--cloud-page);
-  /* Layers: the grain, then the two soft patches of --cloud-page. The grain is a 512px tile drawn at
-     256 CSS px (one grain per device pixel on a Retina screen); the patches fill the screen. Every
-     layer needs its own size and attachment: a short list repeats, and a patch gets tiled like grain. */
-  background-size: 256px 256px, 100% 100%, 100% 100%;
-  background-attachment: scroll, fixed, fixed;
+  position: relative;
   color: var(--ink);
   font-family: var(--font-sans);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: color 0.3s ease;
+}
+/* The page's surface, as two layers behind everything, so scrolling never repaints them: the two soft
+   patches of --cloud-page on the paper stay where the screen is (::before, its own layer), and the grain
+   above them scrolls with the page (::after, as tall as the page). As one body background with fixed
+   patches, every frame of a scroll had to draw the whole screen again. The grain is a 512px tile drawn at
+   256 CSS px (one grain per device pixel on a Retina screen); each patch fills the screen. */
+body::before,
+body::after {
+  content: '';
+  z-index: -1;
+  pointer-events: none;
+}
+body::before {
+  position: fixed;
+  inset: 0;
+  background-color: var(--paper);
+  background-image: var(--cloud-page);
+  background-size: 100% 100%;
+  transition: background-color 0.3s ease;
+  will-change: transform;
+}
+body::after {
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain-page);
+  background-size: 256px 256px;
 }
 
 /* Small labels, kickers and numbers are set in Geist Mono. */
@@ -103,6 +123,9 @@ html.is-scrolling ::-webkit-scrollbar-thumb { background-color: color-mix(in srg
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  /* Its own layer: letters filled with a clipped texture are costly to draw, and this keeps the page's
+     scrolling and the icons' redraws from drawing them again. */
+  will-change: transform;
 }
 
 /* The one card: flat and still. No shadow, no lift, no light inside. */

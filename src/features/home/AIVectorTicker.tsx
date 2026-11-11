@@ -7,7 +7,8 @@ import { SKETCH_GLYPHS } from '@/ui/sketchGlyphs';
 /**
  * A strip of shapes sliding across the bottom of the home page on a slow wave: pixel art, and after
  * every ten of those one hand-drawn icon whose line boils. The motion is written straight to the
- * elements each frame, so React only re-renders when a shape is recycled.
+ * elements each frame, so React only re-renders when a shape is recycled. Only `transform` changes,
+ * so a frame moves the shapes without laying out or repainting the page.
  */
 type Glyph = { kind: 'pixel' | 'sketch'; index: number };
 interface ActiveShape extends Glyph { id: number; x: number }
@@ -43,6 +44,9 @@ function createGlyphSource() {
   };
 }
 
+/** Where a shape sits: `x` along the strip, `wave` px off its middle line. */
+const place = (x: number, wave: number) => `translate3d(${x}px, calc(-50% + ${wave}px), 0)`;
+
 export const AIVectorTicker = () => {
   const [shapes, setShapes] = useState<ActiveShape[]>([]);
   const elements = useRef(new Map<number, HTMLDivElement>());
@@ -67,10 +71,7 @@ export const AIVectorTicker = () => {
       for (const shape of active) {
         shape.x -= SPEED;
         const element = elements.current.get(shape.id);
-        if (element) {
-          element.style.left = `${shape.x}px`;
-          element.style.transform = `translateY(calc(-50% + ${Math.sin(phase + shape.x * spatial) * WAVE_AMPLITUDE}px))`;
-        }
+        if (element) element.style.transform = place(shape.x, Math.sin(phase + shape.x * spatial) * WAVE_AMPLITUDE);
       }
 
       // A shape that left on the left is replaced by a new one on the right.
@@ -100,7 +101,7 @@ export const AIVectorTicker = () => {
               if (element) {
                 elements.current.set(shape.id, element);
                 // Placed at once, so it never flashes at the left edge.
-                element.style.left = `${shape.x}px`;
+                element.style.transform = place(shape.x, 0);
               } else {
                 elements.current.delete(shape.id);
               }
