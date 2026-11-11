@@ -1,0 +1,1 @@
+import{r}from"./index-C1E4CFZg.js";function a(o){const e=r.useRef(null),[i,u]=r.useState(null);return r.useEffect(()=>{const n=e.current?[...e.current.children]:[],s=new IntersectionObserver(t=>{for(const c of t)c.isIntersecting&&u(n.indexOf(c.target))},{rootMargin:"-45% 0px -55% 0px"});return n.forEach(t=>s.observe(t)),()=>s.disconnect()},[o]),{list:e,active:i}}export{a as u};
