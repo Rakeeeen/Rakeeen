@@ -3,9 +3,9 @@ import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
-// The site is served from GitHub Pages under /Rakeeen/.
+// GitHub Pages serves the site from the root of its custom domain (rakeeeen.com, see public/CNAME).
 export default defineConfig({
-  base: '/Rakeeen/',
+  base: '/',
   plugins: [react()],
   resolve: {
     alias: { '@': path.resolve(__dirname, 'src') },
