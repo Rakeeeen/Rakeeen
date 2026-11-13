@@ -1,11 +1,9 @@
 const CACHE_NAME = 'rakeeeen-v1';
-const OFFLINE_URL = '/Rakeeen/offline.html';
+// The worker's scope is the site's base path (/Rakeeen/ on GitHub Pages, / on Firebase).
+const BASE = self.registration.scope;
+const OFFLINE_URL = `${BASE}offline.html`;
 
-const ASSETS_TO_CACHE = [
-  '/Rakeeen/',
-  '/Rakeeen/index.html',
-  '/Rakeeen/offline.html',
-];
+const ASSETS_TO_CACHE = [BASE, `${BASE}index.html`, OFFLINE_URL];
 
 // Install: cache offline page immediately
 self.addEventListener('install', (event) => {
