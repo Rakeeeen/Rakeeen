@@ -54,6 +54,7 @@
   width: 5.5rem;
   height: 5.5rem;
   object-fit: cover;
+  border-radius: 50%;
   flex-shrink: 0;
 }
 
